@@ -56,9 +56,14 @@ public class SchemaGeneration {
 		System.out.println("insert into authorities (user_id, role) values (1001, 'ROLE_STAFF');");
 
 		System.out.println("insert into users (id, username, password, last_name, first_name, email, enabled) values "
-				+ "(1002, 'user', 'abcd', 'System', 'User', 'formbuilderuser@localhost.localdomain', TRUE);");
+				+ "(1002, 'user1', 'abcd', 'System', 'User', 'formbuilderuser1@localhost.localdomain', TRUE);");
 
 		System.out.println("insert into authorities (user_id, role) values (1002, 'ROLE_USER');");
+
+		System.out.println("insert into users (id, username, password, last_name, first_name, email, enabled) values "
+				+ "(1003, 'user2', 'abcd', 'System', 'User', 'formbuilderuser2@localhost.localdomain', TRUE);");
+
+		System.out.println("insert into authorities (user_id, role) values (1003, 'ROLE_USER');");
 
 		out.newLine();
 
@@ -81,11 +86,20 @@ public class SchemaGeneration {
 		out.newLine();
 
 		out.write("insert into users (id, username, password, last_name, first_name, email, enabled) values "
-				+ "(1002, 'user', 'abcd', 'System', 'User', 'formbuilderuser@localhost.localdomain', TRUE);");
+				+ "(1002, 'user1', 'abcd', 'System', 'User', 'formbuilderuser1@localhost.localdomain', TRUE);");
 
 		out.newLine();
 
 		out.write("insert into authorities (user_id, role) values (1002, 'ROLE_USER');");
+
+		out.newLine();
+
+		out.write("insert into users (id, username, password, last_name, first_name, email, enabled) values "
+				+ "(1003, 'user2', 'abcd', 'System', 'User', 'formbuilderuser2@localhost.localdomain', TRUE);");
+
+		out.newLine();
+
+		out.write("insert into authorities (user_id, role) values (1003, 'ROLE_USER');");
 
 		out.newLine();
 

@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import formbuilder.model.pdfform.PdfField;
+
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "questions")
@@ -48,10 +50,14 @@ public abstract class Question implements Serializable {
 	@Embedded
 	protected TagAttribute tagAttribute;
 
+	@OneToMany(mappedBy = "question")
+	protected List<PdfField> pdffields;
+
 	public Question() {
 		enabled = true;
 		answers = new ArrayList<Answer>();
 		tagAttribute = new TagAttribute();
+		pdffields = new ArrayList<PdfField>();
 	}
 
 	public abstract String getType();
@@ -120,6 +126,14 @@ public abstract class Question implements Serializable {
 
 	public void setTagAttribute(TagAttribute tagAttribute) {
 		this.tagAttribute = tagAttribute;
+	}
+
+	public List<PdfField> getPdffields() {
+		return pdffields;
+	}
+
+	public void setPdffields(List<PdfField> pdffields) {
+		this.pdffields = pdffields;
 	}
 
 }

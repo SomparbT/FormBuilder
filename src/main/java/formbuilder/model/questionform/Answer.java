@@ -1,8 +1,6 @@
 package formbuilder.model.questionform;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -12,11 +10,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import formbuilder.model.core.User;
-import formbuilder.model.pdfform.PdfField;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -39,12 +35,8 @@ public class Answer implements Serializable {
 
 	private boolean enabled;
 
-	@OneToMany(mappedBy = "answer")
-	protected List<PdfField> pdffields;
-
 	public Answer() {
 		enabled = true;
-		pdffields = new ArrayList<PdfField>();
 	}
 
 	public int getId() {
@@ -78,14 +70,6 @@ public class Answer implements Serializable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
-	}
-
-	public List<PdfField> getPdffields() {
-		return pdffields;
-	}
-
-	public void setPdffields(List<PdfField> pdffields) {
-		this.pdffields = pdffields;
 	}
 
 	public void setUser(User user) {

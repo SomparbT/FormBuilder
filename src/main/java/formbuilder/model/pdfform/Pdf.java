@@ -63,4 +63,16 @@ public class Pdf implements Serializable {
 		this.enabled = enabled;
 	}
 
+	public void addField(PdfField field) {
+		field.setPdf(this);
+		fields.add(field);
+	}
+
+	public void removeField(PdfField field) {
+		fields.remove(field);
+		if (field != null) {
+			field.setPdf(null);
+		}
+	}
+
 }

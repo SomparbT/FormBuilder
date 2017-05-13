@@ -1,4 +1,4 @@
-package formbuilder.model.uploadfileDaoImp;
+package formbuilder.model.uploadfile.dao.jpa;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -6,17 +6,17 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import formbuilder.model.uploadFileDao.FileUploadDAO;
 import formbuilder.model.uploadfile.UploadFile;
+import formbuilder.model.uploadfile.dao.UploadFileDao;
 
 @Repository
-public class FileUploadDAOImpl implements FileUploadDAO {
+public class UploadFileDaoImpl implements UploadFileDao {
 
 	@PersistenceContext
 	private EntityManager entityManager;
 
 
-	public FileUploadDAOImpl() {
+	public UploadFileDaoImpl() {
 	}
 
 	// public FileUploadDAOImpl(SessionFactory sessionFactory) {

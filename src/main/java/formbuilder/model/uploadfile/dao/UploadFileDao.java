@@ -1,8 +1,8 @@
-package formbuilder.model.uploadFileDao;
+package formbuilder.model.uploadfile.dao;
 
 import formbuilder.model.uploadfile.UploadFile;
 
-public interface FileUploadDAO {
+public interface UploadFileDao {
 	UploadFile save(UploadFile uploadFile);
 
 	void deleteFile(String fileName);

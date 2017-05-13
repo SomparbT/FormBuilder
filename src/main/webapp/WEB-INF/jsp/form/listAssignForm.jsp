@@ -8,7 +8,6 @@
 	<table id="userTable" class="table table-striped table-bordered">
 		<thead>
 			<tr>
-				<th>ID</th>
 				<th>Username</th>
 				<th>First Name</th>
 				<th>Last Name</th>
@@ -25,24 +24,39 @@
 					</c:if>
 				</c:forEach>
 				<tr>
-					<td class="col-md-1">${user.id}</td>
 					<td class="col-md-1">${user.username}</td>
 					<td class="col-md-2">${user.firstName}</td>
 					<td class="col-md-2">${user.lastName}</td>
 					<c:choose>
 						<c:when test="${contains }">
-							<td class="col-md-1"><div style="text-align: center; color: green" data-toggle="tooltip" title="Assigned">
+							<td class="col-md-1">
+								<div style="text-align: center; color: green" data-toggle="tooltip" title="Assigned">
 									<i class="glyphicon glyphicon-export" style="font-size: 1.5em"></i>
-								</div></td>
-							<td class="col-md-1"><a class="btn disabled" href="" data-toggle="tooltip" title="Assign Form"><i class="glyphicon glyphicon-ok"></i></a> <a class="btn"
-								href="deassignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Deassgin Form" style="color: red"><i class="glyphicon glyphicon-remove"></i></a></td>
+								</div>
+							</td>
+							<td class="col-md-2">
+								<a class="btn disabled" href="assignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Assign Form">
+								<i class="glyphicon glyphicon-ok"></i></a>
+								<a class="btn" href="deassignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Deassgin Form" style="color: red">
+								<i class="glyphicon glyphicon-remove"></i></a>
+								<a class="btn" href="/formbuilder/userForm/fillForm.html?uId=${user.id}&fId=${form.id}&pageNum=1" data-toggle="tooltip" title="Edit Answer">
+								<i class="glyphicon glyphicon-pencil"></i></a>
+							</td>
 						</c:when>
 						<c:otherwise>
-							<td class="col-md-1"><div style="text-align: center;" data-toggle="tooltip" title="Not assign">
+							<td class="col-md-1">
+								<div style="text-align: center;" data-toggle="tooltip" title="Not assign">
 									<i class="glyphicon glyphicon-minus" style="font-size: 1.5em"></i>
-								</div></td>
-							<td class="col-md-1"><a class="btn" href="assignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Assign Form" style="color: green"><i class="glyphicon glyphicon-ok"></i></a>
-								<a class="btn disabled" href="" data-toggle="tooltip" title="Deassgin Form"><i class="glyphicon glyphicon-remove"></i></a></td>
+								</div>
+							</td>
+							<td class="col-md-2">
+								<a class="btn" href="assignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Assign Form" style="color: green">
+								<i class="glyphicon glyphicon-ok"></i></a>
+								<a class="btn disabled" href="deassignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Deassgin Form">
+								<i class="glyphicon glyphicon-remove"></i></a>
+								<a class="btn disabled" href="/formbuilder/userForm/fillForm.html?uId=${user.id}&fId=${form.id}&pageNum=1" data-toggle="tooltip" title="Edit Answer">
+								<i class="glyphicon glyphicon-pencil"></i></a>
+							</td>
 						</c:otherwise>
 					</c:choose>
 				</tr>
@@ -75,7 +89,11 @@
 
 <script>
 	$(document).ready(function() {
-		$('#userTable').DataTable();
+		$('#userTable').DataTable({
+			  "search": {
+				    "search": "User"
+				  }
+				});
 		$('#userTable_filter').addClass('form-group');
 	});
 </script>

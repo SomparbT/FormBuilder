@@ -55,9 +55,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		if (isUser) {
 			return "/userHome.html";
 		} else if (isStaff) {
-			return "/staffHome.html";
+			return "/form/listForm.html";
 		} else if (isAdmin) {
-			return "/staffHome.html";
+			return "/form/listForm.html";
 		} else {
 			throw new IllegalStateException();
 		}

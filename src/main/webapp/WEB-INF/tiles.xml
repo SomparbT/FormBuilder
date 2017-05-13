@@ -47,12 +47,6 @@
         <put-attribute name="content" value="/WEB-INF/jsp/userHome.jsp" />
     </definition>
     
-    <definition name="upload" extends="template">
-        <put-attribute name="title" value="Upload" />
-        <put-attribute name="content" value="/WEB-INF/jsp/upload.jsp" />
-    </definition> 
-
-	
 	<!-- ======== -->
     <!--   Form   -->
     <!-- ======== -->
@@ -96,6 +90,11 @@
 		<put-attribute name="title" value="List Form" />
 		<put-attribute name="content" value="/WEB-INF/jsp/form/listAssignForm.jsp" />
 	</definition>
+		
+	<definition name="form/mappingForm" extends="template">
+		<put-attribute name="title" value="Mapping Form" />
+		<put-attribute name="content" value="/WEB-INF/jsp/form/mappingForm.jsp" />
+	</definition>
 	
 	<!-- ======== -->
     <!--   User   -->
@@ -130,11 +129,19 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/userForm/listForm.jsp" />
 	</definition>
 
-	
 	<definition name="userForm/fillForm" extends="template">
 		<put-attribute name="title" value="Fill User Form" />
 		<put-attribute name="content" value="/WEB-INF/jsp/userForm/fillForm.jsp" />
 	</definition>
+	
+	<!-- ============= -->
+    <!--      PDF      -->
+    <!-- ============= -->
+    	
+	<definition name="upload" extends="template">
+        <put-attribute name="title" value="Upload" />
+        <put-attribute name="content" value="/WEB-INF/jsp/upload.jsp" />
+    </definition> 
 	
 </tiles-definitions>
 

@@ -34,6 +34,7 @@ create sequence hibernate_sequence start 1 increment 1;
         enabled boolean not null,
         name varchar(255),
         notification_email varchar(255),
+        published boolean not null,
         total_pages int4,
         primary key (id)
     );
@@ -47,9 +48,10 @@ create sequence hibernate_sequence start 1 increment 1;
     create table pdf_fields (
         id int4 not null,
         enabled boolean not null,
+        fieldType varchar(255),
         name varchar(255),
-        answer_id int4,
         pdf_id int4,
+        question_id int4,
         primary key (id)
     );
 
@@ -138,14 +140,14 @@ create sequence hibernate_sequence start 1 increment 1;
         references forms;
 
     alter table pdf_fields 
-        add constraint FKqcgb7pedfxs6dn29phoqmkpi9 
-        foreign key (answer_id) 
-        references answers;
-
-    alter table pdf_fields 
         add constraint FKlsgntpf4rsms7ibkw5e1qsmpd 
         foreign key (pdf_id) 
         references pdfs;
+
+    alter table pdf_fields 
+        add constraint FKk13jl0ulf5u1otpif9gsfsrlv 
+        foreign key (question_id) 
+        references questions;
 
     alter table question_choices 
         add constraint FK77biojwg2xd8kc8a2odnx3ld4 
@@ -161,5 +163,7 @@ insert into users (id, username, password, last_name, first_name, email, enabled
 insert into authorities (user_id, role) values (1000, 'ROLE_ADMIN');
 insert into users (id, username, password, last_name, first_name, email, enabled) values (1001, 'staff', 'abcd', 'System', 'Staff', 'formbuilderstaff@localhost.localdomain', TRUE);
 insert into authorities (user_id, role) values (1001, 'ROLE_STAFF');
-insert into users (id, username, password, last_name, first_name, email, enabled) values (1002, 'user', 'abcd', 'System', 'User', 'formbuilderuser@localhost.localdomain', TRUE);
+insert into users (id, username, password, last_name, first_name, email, enabled) values (1002, 'user1', 'abcd', 'System', 'User', 'formbuilderuser1@localhost.localdomain', TRUE);
 insert into authorities (user_id, role) values (1002, 'ROLE_USER');
+insert into users (id, username, password, last_name, first_name, email, enabled) values (1003, 'user2', 'abcd', 'System', 'User', 'formbuilderuser2@localhost.localdomain', TRUE);
+insert into authorities (user_id, role) values (1003, 'ROLE_USER');
