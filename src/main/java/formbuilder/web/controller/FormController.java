@@ -121,15 +121,6 @@ public class FormController {
 		userDao.saveUser(user);
 		return "redirect:/form/listAssignForm.html?id=" + id;
 	}
-	
-	@RequestMapping(value = "/form/publishForm.html")
-	public String publishForm(@RequestParam Integer id){
-		Form form = formDao.getForm(id);
-		form.setPublished(true);
-		formDao.saveForm(form);
-		return "redirect:/form/listForm.html";
-	}
-	
 
 	@GetMapping("/form/viewPage.html")
 	public String viewPage(@RequestParam Integer id, @RequestParam Integer pageNum, ModelMap models) {
@@ -365,5 +356,28 @@ public class FormController {
 		return "redirect:/form/editQuestion.html?qId=" + qId;
 	}
 
+	@GetMapping("/form/mappingForm.html")
+	public String mappingForm(@RequestParam Integer id, @RequestParam Integer pageNum, ModelMap models) {
+
+		Form form = formDao.getForm(id);
+		if (pageNum > form.getTotalPages())
+			return "redirect:/form/mappingPage.html?id=" + id + "&pageNum=1";
+		List<Question> questionsPage = form.getQuestionsPage(pageNum);
+		models.put("form", form);
+		models.put("questionsPage", questionsPage);
+		return "form/mappingForm";
+	}
+
+	@PostMapping("/form/mappingForm.html")
+	public String mappingForm(@RequestParam Integer id, @RequestParam Integer pageNum, ModelMap models,
+			@ModelAttribute Form form) {
+		formDao.saveForm(form);
+		if (pageNum > form.getTotalPages())
+			return "redirect:/form/editPage.html?id=" + id + "&pageNum=1";
+		List<Question> questionsPage = form.getQuestionsPage(pageNum);
+		models.put("form", form);
+		models.put("questionsPage", questionsPage);
+		return "form/mappingForm";
+	}
 
 }
