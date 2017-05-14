@@ -31,6 +31,11 @@ public class PdfDaoImpl implements PdfDao {
 	}
 
 	@Override
+	public List<Pdf> getPdfs() {
+		return entityManager.createQuery("from Pdf", Pdf.class).getResultList();
+	}
+
+	@Override
 	public Pdf savePdf(Pdf pdf) {
 		return entityManager.merge(pdf);
 	}

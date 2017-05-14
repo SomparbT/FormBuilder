@@ -6,10 +6,9 @@
 
 
 <div class="container">
-	<table id="userTable" class="table table-striped table-bordered">
+	<table id="userTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>ID</th>
 				<th>First Name</th>
 				<th>Last Name</th>
 				<th>Username</th>
@@ -20,12 +19,11 @@
 		<tbody>
 			<c:forEach items="${users}" var="user">
 				<tr>
-					<td class="col-md-1">${user.id}</td>
-					<td class="col-md-1">${user.firstName}</td>
-					<td class="col-md-1">${user.lastName}</td>
-					<td class="col-md-1">${user.username }</td>
-					<td class="col-md-1">${user.role }</td>
-					<td class="col-md-2"><a class="btn" href="view.html?id=${user.id}" data-toggle="tooltip" title="View User"><i class="glyphicon glyphicon-eye-open"></i></a> 
+					<td>${user.firstName}</td>
+					<td>${user.lastName}</td>
+					<td>${user.username }</td>
+					<td>${user.role }</td>
+					<td><a class="btn" href="view.html?id=${user.id}" data-toggle="tooltip" title="View User"><i class="glyphicon glyphicon-eye-open"></i></a> 
 					<security:authorize access="hasRole('ROLE_ADMIN')">
 						<a class="btn" href="edit.html?id=${user.id}" data-toggle="tooltip" title="Edit User Information"><i class="glyphicon glyphicon-pencil"></i></a>
 						<a class="btn" href="delete.html?id=${user.id}" data-toggle="tooltip" title="Delete User"><i class="glyphicon glyphicon-trash"></i></a>

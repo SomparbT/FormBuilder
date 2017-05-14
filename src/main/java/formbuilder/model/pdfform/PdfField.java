@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import formbuilder.model.questionform.Question;
 
 @Entity
@@ -27,6 +29,7 @@ public class PdfField implements Serializable {
 	private Question question;
 
 	@ManyToOne
+	@JsonBackReference
 	private Pdf pdf;
 
 	private String fieldType;

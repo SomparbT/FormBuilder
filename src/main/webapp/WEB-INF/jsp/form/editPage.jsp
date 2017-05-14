@@ -10,6 +10,13 @@
 	border: 1.5px solid #eee;
 	border-radius: 5px;
 }
+
+.custom {
+				width: 100px !important;
+				margin-right: 10px;
+				margin-top: 5px;
+				border-radius: 24px;
+			}
 </style>
 
 <script>
@@ -119,35 +126,35 @@ $(function() {
 				<hr />
 				<p class="text-center">Click here to add field to the form.</p>
 				<div>
-					<a href="addTextQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=text"><button type="button" class="btn btn-info btn-sm custom">
+					<a href="addTextQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=text"><button type="button" class="btn btn-info btn-sm btn-raised custom">
 							<span class="glyphicon glyphicon-font"></span> TEXT
-						</button></a> <a href="addTextQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=number"><button type="button" class="btn btn-info btn-sm custom">
+						</button></a> <a href="addTextQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=number"><button type="button" class="btn btn-info btn-sm btn-raised custom">
 							<span class="glyphicon glyphicon-sound-5-1"></span> NUMBER
-						</button></a> <a href="addTextQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=textarea"><button type="button" class="btn btn-info btn-sm custom">
+						</button></a> <a href="addTextQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=textarea"><button type="button" class="btn btn-info btn-sm btn-raised custom">
 							<span class="glyphicon glyphicon-text-size"></span> TEXT AREA
 						</button></a>
 				</div>
 				<div>
-					<a href="addChoiceQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=checkbox"><button type="button" class="btn btn-info btn-sm custom">
+					<a href="addChoiceQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=checkbox"><button type="button" class="btn btn-info btn-sm btn-raised custom">
 							<span class="glyphicon glyphicon-check"></span> CHECKBOX
-						</button></a> <a href="addChoiceQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=radio"><button type="button" class="btn btn-info btn-sm custom">
+						</button></a> <a href="addChoiceQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=radio"><button type="button" class="btn btn-info btn-sm btn-raised custom">
 							<span class="glyphicon glyphicon-th-list"></span> RADIO
-						</button></a> <a href="addChoiceQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=options"><button type="button" class="btn btn-info btn-sm custom">
+						</button></a> <a href="addChoiceQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=options"><button type="button" class="btn btn-info btn-sm btn-raised custom">
 							<span class="glyphicon glyphicon-collapse-down"></span> OPTION
 						</button></a>
 				</div>
 				<div>
-					<a href="addFileQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=file"><button type="button" class="btn btn-info btn-sm custom">
+					<a href="addFileQuestion.html?id=${param.id}&pageNum=${param.pageNum}&type=file"><button type="button" class="btn btn-info btn-sm btn-raised custom">
 							<span class="glyphicon glyphicon-file"></span> FILE
 						</button></a>
 				</div>
 				<hr />
 				<div>
-					<a href="addPage.html?id=${param.id}"><button type="button" class="btn btn-success btn-sm">
+					<a href="addPage.html?id=${param.id}"><button type="button" class="btn btn-success btn-sm btn-raised">
 							<span class="glyphicon glyphicon-plus"></span> ADD NEW PAGE
 						</button></a>
 					<c:if test="${form.totalPages > 1 }">
-						<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#deletePage">
+						<button type="button" class="btn btn-danger btn-sm btn-raised" data-toggle="modal" data-target="#deletePage">
 							<span class="glyphicon glyphicon-trash"></span> DELETE PAGE
 						</button>
 					</c:if>

@@ -20,6 +20,8 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import formbuilder.model.core.User;
 import formbuilder.model.core.dao.UserDao;
+import formbuilder.model.pdfform.Pdf;
+import formbuilder.model.pdfform.dao.PdfDao;
 import formbuilder.model.questionform.ChoiceQuestion;
 import formbuilder.model.questionform.FileQuestion;
 import formbuilder.model.questionform.Form;
@@ -38,6 +40,9 @@ public class FormController {
 
 	@Autowired
 	private UserDao userDao;
+
+	@Autowired
+	private PdfDao pdfDao;
 
 	@Value("${upload.location}")
 	private String uploadLocation;
@@ -363,8 +368,13 @@ public class FormController {
 		if (pageNum > form.getTotalPages())
 			return "redirect:/form/mappingPage.html?id=" + id + "&pageNum=1";
 		List<Question> questionsPage = form.getQuestionsPage(pageNum);
+		
+		List<Pdf> pdfs = pdfDao.getPdfs();
+		
+		
 		models.put("form", form);
 		models.put("questionsPage", questionsPage);
+		models.put("pdfs", pdfs);
 		return "form/mappingForm";
 	}
 

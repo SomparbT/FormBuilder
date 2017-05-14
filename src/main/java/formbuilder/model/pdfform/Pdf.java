@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "pdfs")
 public class Pdf implements Serializable {
@@ -22,6 +24,7 @@ public class Pdf implements Serializable {
 	private String name;
 
 	@OneToMany(mappedBy = "pdf", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
 	List<PdfField> fields;
 
 	private boolean enabled;

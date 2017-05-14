@@ -76,7 +76,7 @@
 			</div>
 			<c:forEach items="${question.choices}" var="choice" varStatus="loop">
 				<div class="radio">
-					<label> <input type="radio" name="question${question.questionNumber}" id="optionsRadios${choiceLoop.index }" value=""> ${choice }
+					<label> <input type="radio" name="question${question.questionNumber}" id="optionsRadios${loop.index }" value=""> ${choice }
 					</label>
 				</div>
 			</c:forEach>

@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <div class="container">
-	<table id="formTable" class="table table-striped table-bordered">
+	<table id="formTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
 				<th style="text-align:center">Form Name</th>
@@ -17,11 +17,11 @@
 		<tbody>
 			<c:forEach items="${forms}" var="form">
 				<tr>
-					<td class="col-md-2">${form.name}</td>
-					<td class="col-md-2">${form.description}</td>
-					<td class="col-md-1">${form.enabled}</td>
-					<td class="col-md-1">${form.totalPages}</td>
-					<td class="col-md-3">
+					<td>${form.name}</td>
+					<td>${form.description}</td>
+					<td>${form.enabled}</td>
+					<td>${form.totalPages}</td>
+					<td>
 						<a class="btn" href="viewPage.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="View Form"><i class="glyphicon glyphicon-eye-open"></i></a>
 						<a class="btn" href="editPage.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="Edit Form Page"><i class="glyphicon glyphicon-pencil"></i></a>
 						<a class="btn" href="deleteForm.html?id=${form.id}" data-toggle="tooltip" title="Delete Form"><i class="glyphicon glyphicon-trash"></i></a>
