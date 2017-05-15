@@ -12,12 +12,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import formbuilder.model.core.User;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "answers")
 @DiscriminatorColumn(name = "answer_type")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Answer implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -27,6 +32,7 @@ public class Answer implements Serializable {
 	protected int id;
 
 	@ManyToOne
+	@JsonIgnoreProperties("answers")
 	protected Question question;
 
 	@ManyToOne

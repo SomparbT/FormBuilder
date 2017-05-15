@@ -3,6 +3,7 @@ package formbuilder.model.pdfform.dao;
 import java.util.List;
 
 import formbuilder.model.pdfform.Pdf;
+import formbuilder.model.pdfform.PdfField;
 
 public interface PdfDao {
 
@@ -17,5 +18,7 @@ public interface PdfDao {
 	void deletePdf(int id);
 
 	void deletePdf(String name);
+
+	PdfField getField(int fieldId);
 
 }

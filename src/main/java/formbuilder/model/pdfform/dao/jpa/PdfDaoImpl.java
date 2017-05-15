@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import formbuilder.model.pdfform.Pdf;
+import formbuilder.model.pdfform.PdfField;
 import formbuilder.model.pdfform.dao.PdfDao;
 
 @Repository
@@ -53,6 +54,11 @@ public class PdfDaoImpl implements PdfDao {
 		System.out.println(name);
 		entityManager.remove(getPdf(name));
 
+	}
+
+	@Override
+	public PdfField getField(int fieldId) {
+		return entityManager.find(PdfField.class, fieldId);
 	}
 
 }

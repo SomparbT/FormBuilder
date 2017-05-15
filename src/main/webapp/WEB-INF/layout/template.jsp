@@ -12,10 +12,11 @@
 <link rel="stylesheet" href="<c:url value='/assets/vendors/bootstrap-material-design/css/bootstrap-material-design.min.css' />">
 <link rel="stylesheet" href="<c:url value='/assets/vendors/bootstrap-material-design/css/ripples.min.css' />">
 <link rel="stylesheet" href="<c:url value='/assets/vendors/DataTables-1.10.13/css/dataTables.bootstrap.css' />">
+<link rel="stylesheet" href="<c:url value='/assets/vendors/jquery-ui-themes-1.12.1/jquery-ui.css' />">
 <link rel="stylesheet" href="<c:url value='/assets/resources/css/formbuilder.css' />">
 
 <script src="<c:url value='/assets/vendors/jquery/jquery-3.2.0.min.js' />"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="<c:url value='/assets/vendors/jquery-ui-1.12.1/jquery-ui.min.js' />"></script>
 <script src="<c:url value='/assets/vendors/bootstrap-3.3.7-dist/js/bootstrap.min.js' />"></script>
 
 <!-- Material Design for Bootstrap -->

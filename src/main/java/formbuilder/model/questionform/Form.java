@@ -16,10 +16,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import formbuilder.model.core.User;
 
 @Entity
 @Table(name = "forms")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Form implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -39,9 +44,11 @@ public class Form implements Serializable {
 
 	@OneToMany(mappedBy = "form", cascade = CascadeType.ALL, orphanRemoval = true)
 	@OrderBy("pageNumber, questionNumber")
+	@JsonIgnoreProperties("form")
 	private List<Question> questions;
 
 	@ManyToMany
+	@JsonIgnoreProperties("forms")
 	private Set<User> users;
 
 	@Column(name = "notification_email")

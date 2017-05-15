@@ -10,6 +10,11 @@
 	border: 1.5px solid #eee;
 	border-radius: 5px;
 }
+.active {
+            background : #ffffe0;
+            border-style: dashed;
+            border-width: 1px;
+         } 
 .dropContainerX {
 	background-color: #fff;
 	border: 1.5px solid #eee;
@@ -30,6 +35,7 @@
     padding: 2px 3px;
     width: 398px;    
 }
+
 </style>
 
 
@@ -60,7 +66,7 @@
 				</c:choose>
 			</div>
 		</div>
-
+	<div class="dropContainer">XXX</div>
 	</div>
 
 	<div class="col-md-4" style="position: fixed; right: 0; height: 90%; ">
@@ -175,7 +181,48 @@
 	        $selectPdf.attr("disabled", true);
 	        var pdfId = $("#selectPdf option:selected").attr('data-pdf-id');
 	        var pdfName = $selectPdf.val()
-	        listFields(pdfId, pdfName);
+	        $.ajax({
+		        url: "/formbuilder/service/listFields/" + pdfId,
+		        method: "GET",
+		        dataType: "json",
+		        success: function(data) {
+		        	data.forEach(function (field) {
+		        		if(field.question === null){
+		        			switch(field.fieldType){
+		        			case "PDTextField" :
+				        		var dragField = $("<div class='field fieldText btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id=''><span class='glyphicon btn-glyphicon glyphicon-font img-circle text-primary'></span>" + field.name + "</div>").draggable({
+				        		    appendTo: "body",
+				        		    cursor: "move",
+				        		    helper: 'clone',
+				        		    revert: "invalid"
+				        		});
+				        		break;
+		        			case "PDCheckBox" :
+				        		var dragField = $("<div class='field fieldCheckBox btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id=''><span class='glyphicon btn-glyphicon glyphicon-check img-circle text-primary'></span>" + field.name + "</div>").draggable({
+				        		    appendTo: "body",
+				        		    cursor: "move",
+				        		    helper: 'clone',
+				        		    revert: "invalid"
+				        		});
+				        		break;
+		        			case "PDComboBox" :
+				        		var dragField = $("<div class='field fieldComboBox btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id=''><span class='glyphicon btn-glyphicon glyphicon-collapse-down img-circle text-primary'></span>" + field.name + "</div>").draggable({
+				        		    appendTo: "body",
+				        		    cursor: "move",
+				        		    helper: 'clone',
+				        		    revert: "invalid"
+				        		});
+				        		break;
+		        			default :
+				        		var dragField = $("<div class='field btn icon-btn btn-danger' title='" + pdfName + "'><span class='glyphicon btn-glyphicon glyphicon-remove img-circle text-danger'></span>" + field.name + "</div>");
+				        		break;	
+		        			
+		        			}
+				 			$("#fieldContainer").append(dragField);	
+		        		}
+		        	});
+		        }
+		    });
 	    });
 		
 		$(".field").draggable({
@@ -186,70 +233,107 @@
 		});
 		
 		$("#fieldContainer").droppable({
-		    tolerance: "touch",
+		    tolerance: "intersect",
 		    accept: ".field",
-		    activeClass: "ui-state-default",
-		    hoverClass: "ui-state-hover",
+		    classes: {
+		        "ui-droppable-active": "ui-state-default",
+		        "ui-droppable-hover": "ui-state-hover"
+		      },
 		    drop: function(event, ui) {
-		        $("#fieldContainer").append($(ui.draggable));
+		    	var $field = $(ui.draggable);
+		    	var fieldId = $field.attr('data-field-id');
+		    	var questionId = $field.attr('data-question-id');
+		        if(questionId.length !== 0){
+			        $.ajax({
+		                url: "/formbuilder/service/unmapField/" + questionId + "/" + fieldId,
+		                method: "POST",
+		                success: function(){
+		                	$field.attr("data-question-id", "");
+		                	$("#fieldContainer").append($field);
+		                }
+		            });	
+		        } 
 		    }
 		});
 		
-		$(".dropContainer").droppable({
-		    tolerance: "touch",
-		    accept: ".field",
-		    activeClass: "ui-state-default",
-		    hoverClass: "ui-state-hover",
+		$(".dropContainerText").droppable({
+		    tolerance: "intersect",
+		    accept: ".fieldText",
+		    classes: {
+		        "ui-droppable-active": "active",
+		        "ui-droppable-hover": "ui-state-hover"
+		      },
+		    drop: function(event, ui) {  
+		    	var $field = $(ui.draggable);
+		    	var fieldId = $field.attr('data-field-id');
+		    	var $container = $(this);
+		    	var questionId = $field.attr('data-question-id');
+		    	var containerQuestionId = $container.attr('data-question-id');
+		        if(containerQuestionId !== questionId){
+			        $.ajax({
+		                url: "/formbuilder/service/mapField/" + containerQuestionId + "/" + fieldId,
+		                method: "POST",
+		                success: function(){
+		                	$field.attr("data-question-id", containerQuestionId);
+		                }
+		            });
+		        }
+		        $container.append($field);
+		    }
+		});
+		
+		$(".dropContainerCheckBox").droppable({
+		    tolerance: "intersect",
+		    accept: ".fieldCheckBox",
+		    classes: {
+		        "ui-droppable-active": "active",
+		        "ui-droppable-hover": "ui-state-hover"
+		      },
 		    drop: function(event, ui) {        
-		        $(this).append($(ui.draggable));
+		    	var $field = $(ui.draggable);
+		    	var fieldId = $field.attr('data-field-id');
+		    	var $container = $(this);
+		    	var questionId = $field.attr('data-question-id');
+		    	var containerQuestionId = $container.attr('data-question-id');
+		        if(containerQuestionId !== questionId){
+			        $.ajax({
+		                url: "/formbuilder/service/mapField/" + containerQuestionId + "/" + fieldId,
+		                method: "POST",
+		                success: function(){
+		                	$field.attr("data-question-id", containerQuestionId);
+		                }
+		            });
+		        }
+		        $container.append($field);
+		    }
+		});
+		
+		$(".dropContainerComboBox").droppable({
+		    tolerance: "intersect",
+		    accept: ".fieldComboBox",
+		    classes: {
+		        "ui-droppable-active": "active",
+		        "ui-droppable-hover": "ui-state-hover"
+		      },
+		    drop: function(event, ui) {        
+		    	var $field = $(ui.draggable);
+		    	var fieldId = $field.attr('data-field-id');
+		    	var $container = $(this);
+		    	var questionId = $field.attr('data-question-id');
+		    	var containerQuestionId = $container.attr('data-question-id');
+		        if(containerQuestionId !== questionId){
+			        $.ajax({
+		                url: "/formbuilder/service/mapField/" + containerQuestionId + "/" + fieldId,
+		                method: "POST",
+		                success: function(){
+		                	$field.attr("data-question-id", containerQuestionId);
+		                }
+		            });
+		        }
+		        $container.append($field);
 		    }
 		});
 		
 	});
 	
-	function listFields(pdfId, pdfName){
-	    $.ajax({
-	        url: "/formbuilder/pdf/listFields/" + pdfId,
-	        method: "GET",
-	        dataType: "json",
-	        success: function(data) {
-	        	data.forEach(function (field) {
-	        		if(field.question === null){
-	        			console.log(field.fieldType);
-	        			switch(field.fieldType){
-	        			case "PDTextField" :
-			        		var dragField = $("<div class='field btn icon-btn btn-primary' title='" + pdfName + "'><span class='glyphicon btn-glyphicon glyphicon-font img-circle text-primary'></span>" + field.name + "</div>").draggable({
-			        		    appendTo: "body",
-			        		    cursor: "move",
-			        		    helper: 'clone',
-			        		    revert: "invalid"
-			        		});
-			        		break;
-	        			case "PDCheckBox" :
-			        		var dragField = $("<div class='field btn icon-btn btn-primary' title='" + pdfName + "'><span class='glyphicon btn-glyphicon glyphicon-check img-circle text-primary'></span>" + field.name + "</div>").draggable({
-			        		    appendTo: "body",
-			        		    cursor: "move",
-			        		    helper: 'clone',
-			        		    revert: "invalid"
-			        		});
-			        		break;
-	        			case "PDComboBox" :
-			        		var dragField = $("<div class='field btn icon-btn btn-primary' title='" + pdfName + "'><span class='glyphicon btn-glyphicon glyphicon-collapse-down img-circle text-primary'></span>" + field.name + "</div>").draggable({
-			        		    appendTo: "body",
-			        		    cursor: "move",
-			        		    helper: 'clone',
-			        		    revert: "invalid"
-			        		});
-			        		break;
-	        			default :
-			        		var dragField = $("<div class='field btn icon-btn btn-danger' title='" + pdfName + "'><span class='glyphicon btn-glyphicon glyphicon-remove img-circle text-danger'></span>" + field.name + "</div>");
-			        		break;	
-	        			
-	        			}
-			 			$("#fieldContainer").append(dragField);	
-	        		}
-	        	});
-	        }
-	    });
-	}
 </script>

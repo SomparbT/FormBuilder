@@ -17,12 +17,17 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import formbuilder.model.pdfform.PdfField;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "questions")
 @DiscriminatorColumn(name = "question_type")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public abstract class Question implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -34,6 +39,7 @@ public abstract class Question implements Serializable {
 	protected String description;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("question")
 	protected List<Answer> answers;
 
 	@Column(name = "question_number")
@@ -42,6 +48,7 @@ public abstract class Question implements Serializable {
 	protected boolean enabled;
 
 	@ManyToOne
+	@JsonIgnoreProperties("questions")
 	protected Form form;
 
 	@Column(name = "page_number")
@@ -51,13 +58,14 @@ public abstract class Question implements Serializable {
 	protected TagAttribute tagAttribute;
 
 	@OneToMany(mappedBy = "question")
-	protected List<PdfField> pdffields;
+	@JsonIgnoreProperties("question")
+	protected List<PdfField> pdfFields;
 
 	public Question() {
 		enabled = true;
 		answers = new ArrayList<Answer>();
 		tagAttribute = new TagAttribute();
-		pdffields = new ArrayList<PdfField>();
+		pdfFields = new ArrayList<PdfField>();
 	}
 
 	public abstract String getType();
@@ -128,12 +136,23 @@ public abstract class Question implements Serializable {
 		this.tagAttribute = tagAttribute;
 	}
 
-	public List<PdfField> getPdffields() {
-		return pdffields;
+	public List<PdfField> getPdfFields() {
+		return pdfFields;
 	}
 
-	public void setPdffields(List<PdfField> pdffields) {
-		this.pdffields = pdffields;
+	public void setPdfFields(List<PdfField> pdfFields) {
+		this.pdfFields = pdfFields;
 	}
 
+	public void addField(PdfField field) {
+		field.setQuestion(this);
+		pdfFields.add(field);
+	}
+
+	public void removeField(PdfField field) {
+		pdfFields.remove(field);
+		if (field != null) {
+			field.setQuestion(null);
+		}
+	}
 }
