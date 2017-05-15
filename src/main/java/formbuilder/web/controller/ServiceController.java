@@ -34,7 +34,7 @@ public class ServiceController {
 	@PostMapping("/service/mapField/{qId}/{fieldId}")
 	@ResponseBody
 	public void mapField(@PathVariable Integer qId, @PathVariable Integer fieldId) {
-
+		System.out.println("service reach");
 		Question question = formDao.getQuestion(qId);
 		PdfField field = pdfDao.getField(fieldId);
 		question.addField(field);
@@ -48,6 +48,18 @@ public class ServiceController {
 		Question question = formDao.getQuestion(qId);
 		PdfField field = pdfDao.getField(fieldId);
 		question.removeField(field);
+		formDao.saveQuestion(question);
+	}
+
+	@PostMapping("/service/mapFieldChoice/{qId}/{fieldId}/{choiceIndex}")
+	@ResponseBody
+	public void mapFieldChoice(@PathVariable Integer qId, @PathVariable Integer fieldId,
+			@PathVariable Integer choiceIndex) {
+
+		Question question = formDao.getQuestion(qId);
+		PdfField field = pdfDao.getField(fieldId);
+		field.setChoiceIndex(choiceIndex);
+		question.addField(field);
 		formDao.saveQuestion(question);
 	}
 

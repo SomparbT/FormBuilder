@@ -33,7 +33,6 @@ public class Form implements Serializable {
 	@GeneratedValue
 	private int id;
 
-
 	private String name;
 
 	private String description;
@@ -56,6 +55,8 @@ public class Form implements Serializable {
 
 	@Column(name = "total_pages")
 	private int totalPages;
+
+	private boolean userPrintable;
 
 	public Form() {
 		enabled = true;
@@ -127,6 +128,22 @@ public class Form implements Serializable {
 		this.totalPages = totalPages;
 	}
 
+	public boolean isPublished() {
+		return published;
+	}
+
+	public void setPublished(boolean published) {
+		this.published = published;
+	}
+
+	public boolean isUserPrintable() {
+		return userPrintable;
+	}
+
+	public void setUserPrintable(boolean userPrintable) {
+		this.userPrintable = userPrintable;
+	}
+
 	public List<Question> getQuestionsPage(int pageNumber) {
 		List<Question> questionsPage = new ArrayList<Question>();
 		for (Question question : questions) {
@@ -148,11 +165,5 @@ public class Form implements Serializable {
 		}
 	}
 
-	public boolean isPublished() {
-		return published;
-	}
 
-	public void setPublished(boolean published) {
-		this.published = published;
-	}
 }

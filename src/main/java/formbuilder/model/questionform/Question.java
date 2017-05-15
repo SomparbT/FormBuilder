@@ -59,13 +59,13 @@ public abstract class Question implements Serializable {
 
 	@OneToMany(mappedBy = "question")
 	@JsonIgnoreProperties("question")
-	protected List<PdfField> pdfFields;
+	protected List<PdfField> fields;
 
 	public Question() {
 		enabled = true;
 		answers = new ArrayList<Answer>();
 		tagAttribute = new TagAttribute();
-		pdfFields = new ArrayList<PdfField>();
+		fields = new ArrayList<PdfField>();
 	}
 
 	public abstract String getType();
@@ -136,21 +136,21 @@ public abstract class Question implements Serializable {
 		this.tagAttribute = tagAttribute;
 	}
 
-	public List<PdfField> getPdfFields() {
-		return pdfFields;
+	public List<PdfField> getFields() {
+		return fields;
 	}
 
-	public void setPdfFields(List<PdfField> pdfFields) {
-		this.pdfFields = pdfFields;
+	public void setFields(List<PdfField> fields) {
+		this.fields = fields;
 	}
 
 	public void addField(PdfField field) {
 		field.setQuestion(this);
-		pdfFields.add(field);
+		fields.add(field);
 	}
 
 	public void removeField(PdfField field) {
-		pdfFields.remove(field);
+		fields.remove(field);
 		if (field != null) {
 			field.setQuestion(null);
 		}

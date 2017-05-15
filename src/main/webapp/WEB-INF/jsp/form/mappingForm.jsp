@@ -198,7 +198,7 @@
 				        		});
 				        		break;
 		        			case "PDCheckBox" :
-				        		var dragField = $("<div class='field fieldCheckBox btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id=''><span class='glyphicon btn-glyphicon glyphicon-check img-circle text-primary'></span>" + field.name + "</div>").draggable({
+				        		var dragField = $("<div class='field fieldCheckBox btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id='' data-choice-index=''><span class='glyphicon btn-glyphicon glyphicon-check img-circle text-primary'></span>" + field.name + "</div>").draggable({
 				        		    appendTo: "body",
 				        		    cursor: "move",
 				        		    helper: 'clone',
@@ -295,12 +295,13 @@
 		    	var $container = $(this);
 		    	var questionId = $field.attr('data-question-id');
 		    	var containerQuestionId = $container.attr('data-question-id');
+		    	var choiceIndex = $container.attr('data-choice-index');
 		        if(containerQuestionId !== questionId){
 			        $.ajax({
-		                url: "/formbuilder/service/mapField/" + containerQuestionId + "/" + fieldId,
+		                url: "/formbuilder/service/mapFieldChoice/" + containerQuestionId + "/" + fieldId + "/" + choiceIndex,
 		                method: "POST",
 		                success: function(){
-		                	$field.attr("data-question-id", containerQuestionId);
+		                	$field.attr("data-question-id", containerQuestionId).attr("data-choice-index", choiceIndex);
 		                }
 		            });
 		        }

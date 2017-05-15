@@ -28,7 +28,10 @@ public class PdfField implements Serializable {
 
 	private boolean enabled;
 
+	private Integer choiceIndex;
+
 	@ManyToOne
+	@JsonIgnoreProperties("fields")
 	private Question question;
 
 	@ManyToOne
@@ -87,6 +90,14 @@ public class PdfField implements Serializable {
 
 	public void setFieldType(String fieldType) {
 		this.fieldType = fieldType;
+	}
+
+	public Integer getChoiceIndex() {
+		return choiceIndex;
+	}
+
+	public void setChoiceIndex(Integer choiceIndex) {
+		this.choiceIndex = choiceIndex;
 	}
 
 }

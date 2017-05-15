@@ -36,6 +36,7 @@ create sequence hibernate_sequence start 1 increment 1;
         notification_email varchar(255),
         published boolean not null,
         total_pages int4,
+        userPrintable boolean not null,
         primary key (id)
     );
 
@@ -47,6 +48,7 @@ create sequence hibernate_sequence start 1 increment 1;
 
     create table pdf_fields (
         id int4 not null,
+        choiceIndex int4,
         enabled boolean not null,
         fieldType varchar(255),
         name varchar(255),

@@ -378,16 +378,5 @@ public class FormController {
 		return "form/mappingForm";
 	}
 
-	@PostMapping("/form/mappingForm.html")
-	public String mappingForm(@RequestParam Integer id, @RequestParam Integer pageNum, ModelMap models,
-			@ModelAttribute Form form) {
-		formDao.saveForm(form);
-		if (pageNum > form.getTotalPages())
-			return "redirect:/form/editPage.html?id=" + id + "&pageNum=1";
-		List<Question> questionsPage = form.getQuestionsPage(pageNum);
-		models.put("form", form);
-		models.put("questionsPage", questionsPage);
-		return "form/mappingForm";
-	}
 
 }
