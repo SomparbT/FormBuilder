@@ -22,7 +22,7 @@ public class PdfField implements Serializable {
 
 	@Id
 	@GeneratedValue
-	private Integer id;
+	private int id;
 
 	private String name;
 
@@ -44,11 +44,11 @@ public class PdfField implements Serializable {
 		enabled = true;
 	}
 
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
