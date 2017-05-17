@@ -35,7 +35,7 @@
 						</div>
 					</c:when>
 				</c:choose>
-				<input type="${question.tagAttribute.inputType}" class="form-control" id="question${question.questionNumber}" placeholder="${question.tagAttribute.placeholder }">
+				<input type="${question.tagAttribute.inputType}" class="form-control input-lg" id="question${question.questionNumber}" placeholder="${question.tagAttribute.placeholder }">
 			</div>
 		</c:when>
 
@@ -44,7 +44,7 @@
 				<label for="question${question.questionNumber}" class="control-label">${question.questionNumber}. <span>${question.description }</span></label>
 			</div>
 			<div class="${question.tagAttribute.size }">
-				<input type="number" class="form-control" id="question${question.questionNumber}" min="${question.tagAttribute.min}" max="${question.tagAttribute.max}" step="${question.tagAttribute.step}"
+				<input type="number" class="form-control input-lg" id="question${question.questionNumber}" min="${question.tagAttribute.min}" max="${question.tagAttribute.max}" step="${question.tagAttribute.step}"
 					placeholder="${question.tagAttribute.placeholder }">
 			</div>
 		</c:when>
@@ -54,7 +54,7 @@
 				<label for="question${question.questionNumber}" class="control-label">${question.questionNumber}. <span>${question.description }</span></label>
 			</div>
 			<div class="${question.tagAttribute.size }">
-				<textarea class="form-control" rows="${question.tagAttribute.rows}"></textarea>
+				<textarea class="form-control input-lg" rows="${question.tagAttribute.rows}"></textarea>
 			</div>
 		</c:when>
 
@@ -87,7 +87,7 @@
 				<label for="question${question.questionNumber}" class="control-label">${question.questionNumber}. <span>${question.description }</span></label>
 			</div>
 			<div class="${question.tagAttribute.size }">
-				<select class="form-control">
+				<select class="form-control input-lg">
 					<option label=" "></option>
 					<c:forEach items="${question.choices}" var="choice">
 						<option>${choice }</option>

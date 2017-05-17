@@ -22,20 +22,13 @@
 					<td style="vertical-align: middle;">${form.enabled}</td>
 					<td style="vertical-align: middle;">${form.totalPages}</td>
 					<td>
-						<a class="btn" href="viewPage.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="View Form"><i class="glyphicon glyphicon-eye-open"></i></a>
-						<a class="btn" href="editPage.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="Edit Form Page"><i class="glyphicon glyphicon-pencil"></i></a>
-						<a class="btn" href="deleteForm.html?id=${form.id}" data-toggle="tooltip" title="Delete Form"><i class="glyphicon glyphicon-trash"></i></a>
-						<a class="btn" href="listAssignForm.html?id=${form.id}" data-toggle="tooltip" title="Assign Form"><i class="glyphicon glyphicon-open-file"></i></a>						
+						<a class="btn" href="mappingForm.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="Mapping Form"><i class="glyphicon glyphicon-transfer"></i></a>						
+						<a class="btn" href="listPrintForm.html?id=${form.id}" data-toggle="tooltip" title="Print Form"><i class="glyphicon glyphicon-open-file"></i></a>
 					</td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<div class="col-md-offset-10">
-		<a href="addForm.html" id="popupAddForm"><button type="button" class="btn btn-success btn-sm btn-raised">
-				<span class="glyphicon glyphicon-plus"></span> ADD NEW FORM
-			</button></a>
-	</div>
 </div>
 
 

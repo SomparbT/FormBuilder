@@ -11,8 +11,8 @@
 				<th>Username</th>
 				<th>First Name</th>
 				<th>Last Name</th>
-				<th>Assign Status</th>
-				<th>Operations</th>
+				<th style="text-align:center">Assign Status</th>
+				<th style="text-align:center">Operations</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -24,17 +24,17 @@
 					</c:if>
 				</c:forEach>
 				<tr>
-					<td class="col-md-1">${user.username}</td>
-					<td class="col-md-2">${user.firstName}</td>
-					<td class="col-md-2">${user.lastName}</td>
+					<td style="vertical-align: middle;">${user.username}</td>
+					<td style="vertical-align: middle;">${user.firstName}</td>
+					<td style="vertical-align: middle;">${user.lastName}</td>
 					<c:choose>
 						<c:when test="${contains }">
-							<td class="col-md-1">
+							<td style="vertical-align: middle;">
 								<div style="text-align: center; color: green" data-toggle="tooltip" title="Assigned">
 									<i class="glyphicon glyphicon-export" style="font-size: 1.5em"></i>
 								</div>
 							</td>
-							<td class="col-md-2">
+							<td>
 								<a class="btn disabled" href="assignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Assign Form">
 								<i class="glyphicon glyphicon-ok"></i></a>
 								<a class="btn" href="deassignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Deassgin Form" style="color: red">
@@ -44,12 +44,12 @@
 							</td>
 						</c:when>
 						<c:otherwise>
-							<td class="col-md-1">
+							<td style="vertical-align: middle;">
 								<div style="text-align: center;" data-toggle="tooltip" title="Not assign">
 									<i class="glyphicon glyphicon-minus" style="font-size: 1.5em"></i>
 								</div>
 							</td>
-							<td class="col-md-2">
+							<td>
 								<a class="btn" href="assignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Assign Form" style="color: green">
 								<i class="glyphicon glyphicon-ok"></i></a>
 								<a class="btn disabled" href="deassignForm.html?id=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Deassgin Form">

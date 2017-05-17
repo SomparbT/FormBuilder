@@ -24,10 +24,7 @@
         <put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
     </definition> 
     
-    <definition name="/pdf/upload" extends="template">
-		<put-attribute name="title" value="File Management" />
-		<put-attribute name="content" value="/WEB-INF/jsp/pdf/upload.jsp" />
-	</definition>
+
     
 
     <definition name="/signup" template="/WEB-INF/layout/lpanel.jsp">
@@ -90,11 +87,6 @@
 		<put-attribute name="title" value="List Form" />
 		<put-attribute name="content" value="/WEB-INF/jsp/form/listAssignForm.jsp" />
 	</definition>
-		
-	<definition name="form/mappingForm" extends="template">
-		<put-attribute name="title" value="Mapping Form" />
-		<put-attribute name="content" value="/WEB-INF/jsp/form/mappingForm.jsp" />
-	</definition>
 	
 	<!-- ======== -->
     <!--   User   -->
@@ -138,10 +130,29 @@
     <!--      PDF      -->
     <!-- ============= -->
     	
-	<definition name="upload" extends="template">
-        <put-attribute name="title" value="Upload" />
-        <put-attribute name="content" value="/WEB-INF/jsp/upload.jsp" />
-    </definition> 
+	<definition name="pdf/listPdf" extends="template">
+        <put-attribute name="title" value="List PDF" />
+        <put-attribute name="content" value="/WEB-INF/jsp/pdf/listPdf.jsp" />
+    </definition>
+    
+    <!-- ============= -->
+    <!--  FORM TO PDF  -->
+    <!-- ============= --> 
 	
+	<definition name="formToPdf/listForm" extends="template">
+		<put-attribute name="title" value="List Form" />
+		<put-attribute name="content" value="/WEB-INF/jsp/formToPdf/listForm.jsp" />
+	</definition>
+	
+	<definition name="formToPdf/mappingForm" extends="template">
+		<put-attribute name="title" value="Mapping Form" />
+		<put-attribute name="content" value="/WEB-INF/jsp/formToPdf/mappingForm.jsp" />
+	</definition>
+	
+	<definition name="formToPdf/listPrintForm" extends="template">
+		<put-attribute name="title" value="list Print Form" />
+		<put-attribute name="content" value="/WEB-INF/jsp/formToPdf/listPrintForm.jsp" />
+	</definition>
+		
 </tiles-definitions>
 

@@ -59,7 +59,9 @@
 							<label style="color:black;"> <input type="radio" name="question${question.questionNumber}" id="optionsRadios${choiceLoop.index }" value="" disabled> ${choice }</label>
 						</div>
 						<c:forEach items="${question.fields}" var="field">
-							<div class='field fieldCheckBox btn icon-btn btn-primary' title='${field.pdf.name }' data-field-id='${field.id }' data-question-id='${question.id }'><span class='glyphicon btn-glyphicon glyphicon-check img-circle text-primary'></span>${field.name }</div>
+							<c:if test="${field.choiceIndex eq loop.index }">
+								<div class='field fieldCheckBox btn icon-btn btn-primary' title='${field.pdf.name }' data-field-id='${field.id }' data-question-id='${question.id }'><span class='glyphicon btn-glyphicon glyphicon-check img-circle text-primary'></span>${field.name }</div>
+							</c:if>
 						</c:forEach>
 					</div>	
 				</c:forEach>

@@ -13,16 +13,16 @@
 				<th>Last Name</th>
 				<th>Username</th>
 				<th>Role</th>
-				<th>Operations</th>
+				<th style="text-align:center">Operations</th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${users}" var="user">
 				<tr>
-					<td>${user.firstName}</td>
-					<td>${user.lastName}</td>
-					<td>${user.username }</td>
-					<td>${user.role }</td>
+					<td style="vertical-align: middle;">${user.firstName}</td>
+					<td style="vertical-align: middle;">${user.lastName}</td>
+					<td style="vertical-align: middle;">${user.username }</td>
+					<td style="vertical-align: middle;">${user.role }</td>
 					<td><a class="btn" href="view.html?id=${user.id}" data-toggle="tooltip" title="View User"><i class="glyphicon glyphicon-eye-open"></i></a> 
 					<security:authorize access="hasRole('ROLE_ADMIN')">
 						<a class="btn" href="edit.html?id=${user.id}" data-toggle="tooltip" title="Edit User Information"><i class="glyphicon glyphicon-pencil"></i></a>

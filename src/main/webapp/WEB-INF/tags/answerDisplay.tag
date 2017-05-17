@@ -87,7 +87,7 @@
 					${question.description }</label>
 			</div>
 			<c:forEach items="${question.choices}" var="choice" varStatus="loop">
-				<form:radiobutton path="questions[${index }].answers[0].selections[0]" value="${choice }" label="${choice }" /> 				
+				<form:radiobutton path="questions[${index }].answers[0].selections[0]" value="${loop.index }" label="${choice }" /> 				
 			</c:forEach>
 		</c:when>
 

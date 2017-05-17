@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import formbuilder.model.core.User;
 import formbuilder.model.core.dao.UserDao;
-import formbuilder.model.pdfform.Pdf;
-import formbuilder.model.pdfform.dao.PdfDao;
 import formbuilder.model.questionform.ChoiceQuestion;
 import formbuilder.model.questionform.FileQuestion;
 import formbuilder.model.questionform.Form;
@@ -41,13 +38,7 @@ public class FormController {
 	@Autowired
 	private UserDao userDao;
 
-	@Autowired
-	private PdfDao pdfDao;
-
-	@Value("${upload.location}")
-	private String uploadLocation;
-
-	@RequestMapping("/form/listForm.html")
+	@GetMapping("/form/listForm.html")
 	public String listForm(ModelMap models) {
 
 		models.put("forms", formDao.getForms());
@@ -360,23 +351,5 @@ public class FormController {
 
 		return "redirect:/form/editQuestion.html?qId=" + qId;
 	}
-
-	@GetMapping("/form/mappingForm.html")
-	public String mappingForm(@RequestParam Integer id, @RequestParam Integer pageNum, ModelMap models) {
-
-		Form form = formDao.getForm(id);
-		if (pageNum > form.getTotalPages())
-			return "redirect:/form/mappingPage.html?id=" + id + "&pageNum=1";
-		List<Question> questionsPage = form.getQuestionsPage(pageNum);
-		
-		List<Pdf> pdfs = pdfDao.getPdfs();
-		
-		
-		models.put("form", form);
-		models.put("questionsPage", questionsPage);
-		models.put("pdfs", pdfs);
-		return "form/mappingForm";
-	}
-
 
 }
