@@ -1,21 +1,21 @@
 package formbuilder.web.controller;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
@@ -53,7 +53,7 @@ public class PdfController {
 
 	@PostMapping("/pdf/uploadPdf.html")
 	public String uploadPdf(HttpServletRequest request, @RequestParam("uploadFile") MultipartFile uploadFile,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes) throws IOException {
 
 		if (uploadFile.isEmpty()) {
 			redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
@@ -62,7 +62,7 @@ public class PdfController {
 
 		String fileName = uploadFile.getOriginalFilename();
 		String fileType = fileName.substring(fileName.lastIndexOf('.') + 1);
-		String filePath = uploadLocation + "/PDFresource/" + uploadFile.getOriginalFilename();
+		String filePath = uploadLocation + "/PDFresource/" + fileName;
 
 		if (!fileType.equalsIgnoreCase("pdf")) {
 			redirectAttributes.addFlashAttribute("message", "Please select pdf file only");
@@ -72,28 +72,48 @@ public class PdfController {
 		try {
 			// Get the file and save it somewhere
 			byte[] bytes = uploadFile.getBytes();
-			Path path = Paths.get(filePath);
-			Files.createDirectories(path.getParent());
-			Files.write(path, bytes);
+			File file = new File(filePath);
+			file.getParentFile().mkdirs();
+
+			// add suffix to file name if upload existing file name
+			if (file.exists()) {
+				String fileNameNoExt = FilenameUtils.getBaseName(fileName);
+				filePath = uploadLocation + "/PDFresource/" + fileNameNoExt + " - Copy." + fileType;
+				file = new File(filePath);
+				if (file.exists()) {
+					filePath = uploadLocation + "/PDFresource/" + fileNameNoExt + " - Copy (%d)." + fileType;
+					for (int i = 1;; i++) {
+						file = new File(String.format(filePath, i));
+						if (!file.exists()) {
+							fileName = file.getName();
+							break;
+						}
+					}
+				}
+			}
+
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(file));
+			stream.write(bytes);
+			stream.close();
 
 			redirectAttributes.addFlashAttribute("message",
-					"You successfully uploaded '" + uploadFile.getOriginalFilename() + "'");
+					"You successfully uploaded '" + file.getName() + "'");
 
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		PDDocument pdfTemplate = PDDocument.load(new File(filePath));
+		try {
 			// create Pdf Object
 			Pdf pdf = new Pdf();
-			pdf.setName(uploadFile.getOriginalFilename());
+			pdf.setName(fileName);
 
 			// add pdf fields to pdf object
-			File file = new File(filePath);
-			PDDocument pdfTemplate = PDDocument.load(file);
+
 
 			PDDocumentCatalog docCatalog = pdfTemplate.getDocumentCatalog();
 			PDAcroForm acroForm = docCatalog.getAcroForm();
-
-			if (acroForm.getFields() == null) {
-				redirectAttributes.addFlashAttribute("message", "This file has no field!");
-				return "redirect:/pdf/listPdf.html";
-			}
 
 			List<PDField> pdFields = acroForm.getFields();
 			for (PDField pdField : pdFields) {
@@ -107,9 +127,13 @@ public class PdfController {
 
 			pdfDao.savePdf(pdf);
 			pdfTemplate.close();
-
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			redirectAttributes.addFlashAttribute("message", "This file has no field!");
+			return "redirect:/pdf/listPdf.html";
+		} finally {
+			pdfTemplate.close();
 		}
 
 		return "redirect:/pdf/listPdf.html";

@@ -66,7 +66,6 @@
 				</c:choose>
 			</div>
 		</div>
-	<div class="dropContainer">XXX</div>
 	</div>
 
 	<div class="col-md-4" style="position: fixed; right: 0; height: 90%; ">
@@ -87,7 +86,6 @@
 				     <button id="chooseBtn" class="btn btn-primary btn-sm btn-raised" style="padding-left: 3em; padding-right: 3em;">Choose</button>
 				</div>
 				<hr />
-				<div class="field">Drag Test</div>
 				<p class="text-center">Drag field name from here to map the form field.</p>
 				
 				
@@ -122,36 +120,6 @@
 	</div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="deletePage" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-					<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-				</button>
-				<h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
-			</div>
-			<div class="modal-body">
-
-				<div class="alert alert-danger">
-					<span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Page?
-				</div>
-
-				<div class="modal-footer ">
-					<a href="deletePage.html?id=${param.id}&pageNum=${param.pageNum}">
-						<button type="button" class="btn btn-danger">
-							<span class="glyphicon glyphicon-ok-sign"></span> Yes
-						</button>
-					</a>
-					<button type="button" class="btn btn-default" data-dismiss="modal">
-						<span class="glyphicon glyphicon-remove"></span> No
-					</button>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
 <script>
 	$(function() {
 		$('[data-toggle="tooltip"]').tooltip({
