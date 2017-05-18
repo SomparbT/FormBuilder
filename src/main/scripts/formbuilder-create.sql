@@ -21,11 +21,9 @@ create sequence hibernate_sequence start 1 increment 1;
         role varchar(255)
     );
 
-    create table files_upload (
-        FILE_ID int8 not null,
-        FILE_DATA bytea,
-        FILE_NAME varchar(255),
-        primary key (FILE_ID)
+    create table filled_forms (
+        user_id int4 not null,
+        filledForms varchar(255)
     );
 
     create table forms (
@@ -61,6 +59,7 @@ create sequence hibernate_sequence start 1 increment 1;
         id int4 not null,
         enabled boolean not null,
         name varchar(255),
+        form_id int4,
         primary key (id)
     );
 
@@ -131,6 +130,11 @@ create sequence hibernate_sequence start 1 increment 1;
         foreign key (user_id) 
         references users;
 
+    alter table filled_forms 
+        add constraint FK53pc7n6xgyn7w63yix2plf8lg 
+        foreign key (user_id) 
+        references users;
+
     alter table forms_users 
         add constraint FKhp0dk6l6s1p5c2mcew1md2yph 
         foreign key (users_id) 
@@ -150,6 +154,11 @@ create sequence hibernate_sequence start 1 increment 1;
         add constraint FKk13jl0ulf5u1otpif9gsfsrlv 
         foreign key (question_id) 
         references questions;
+
+    alter table pdfs 
+        add constraint FKt9ax8sh7xq2iuhoon8yswmjkl 
+        foreign key (form_id) 
+        references forms;
 
     alter table question_choices 
         add constraint FK77biojwg2xd8kc8a2odnx3ld4 

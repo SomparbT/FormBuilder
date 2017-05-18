@@ -9,15 +9,11 @@ public interface PdfDao {
 
 	Pdf getPdf(int id);
 
-	Pdf getPdf(String name);
-
 	List<Pdf> getPdfs();
 
 	Pdf savePdf(Pdf pdf);
 
 	void deletePdf(int id);
-
-	void deletePdf(String name);
 
 	PdfField getField(int fieldId);
 

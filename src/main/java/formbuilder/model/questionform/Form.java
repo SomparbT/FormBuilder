@@ -17,6 +17,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import formbuilder.model.core.User;
+import formbuilder.model.pdfform.Pdf;
 
 @Entity
 @Table(name = "forms")
@@ -49,11 +50,15 @@ public class Form implements Serializable {
 	@Column(name = "total_pages")
 	private int totalPages;
 
+	@OneToMany(mappedBy = "form")
+	private List<Pdf> pdfs;
+
 	private boolean userPrintable;
 
 	public Form() {
 		enabled = true;
 		questions = new ArrayList<Question>();
+		pdfs = new ArrayList<Pdf>();
 		users = new HashSet<User>();
 	}
 
@@ -137,6 +142,14 @@ public class Form implements Serializable {
 		this.userPrintable = userPrintable;
 	}
 
+	public List<Pdf> getPdfs() {
+		return pdfs;
+	}
+
+	public void setPdfs(List<Pdf> pdfs) {
+		this.pdfs = pdfs;
+	}
+
 	public List<Question> getQuestionsPage(int pageNumber) {
 		List<Question> questionsPage = new ArrayList<Question>();
 		for (Question question : questions) {
@@ -155,6 +168,18 @@ public class Form implements Serializable {
 		questions.remove(question);
 		if (question != null) {
 			question.setForm(null);
+		}
+	}
+
+	public void addPdf(Pdf pdf) {
+		pdf.setForm(this);
+		pdfs.add(pdf);
+	}
+
+	public void removePdf(Pdf pdf) {
+		pdfs.remove(pdf);
+		if (pdf != null) {
+			pdf.setForm(null);
 		}
 	}
 

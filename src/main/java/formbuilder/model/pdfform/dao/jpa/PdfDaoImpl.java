@@ -25,13 +25,6 @@ public class PdfDaoImpl implements PdfDao {
 	}
 
 	@Override
-	public Pdf getPdf(String name) {
-		List<Pdf> pdfs = entityManager.createQuery("from Pdf where name = :name", Pdf.class).setParameter("name", name)
-				.getResultList();
-		return pdfs.size() == 0 ? null : pdfs.get(0);
-	}
-
-	@Override
 	public List<Pdf> getPdfs() {
 		return entityManager.createQuery("from Pdf", Pdf.class).getResultList();
 	}
@@ -46,14 +39,6 @@ public class PdfDaoImpl implements PdfDao {
 		System.out.println("id");
 		System.out.println(id);
 		entityManager.remove(getPdf(id));
-	}
-
-	@Override
-	public void deletePdf(String name) {
-		System.out.println("name");
-		System.out.println(name);
-		entityManager.remove(getPdf(name));
-
 	}
 
 	@Override

@@ -8,10 +8,13 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import formbuilder.model.questionform.Form;
 
 @Entity
 @Table(name = "pdfs")
@@ -26,6 +29,10 @@ public class Pdf implements Serializable {
 	@OneToMany(mappedBy = "pdf", cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	List<PdfField> fields;
+
+	@ManyToOne
+	@JsonIgnore
+	private Form form;
 
 	private boolean enabled;
 
@@ -64,6 +71,14 @@ public class Pdf implements Serializable {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+
+	public Form getForm() {
+		return form;
+	}
+
+	public void setForm(Form form) {
+		this.form = form;
 	}
 
 	public void addField(PdfField field) {

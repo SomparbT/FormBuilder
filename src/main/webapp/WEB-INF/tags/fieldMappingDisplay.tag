@@ -37,7 +37,7 @@
 		</c:when>
 
 		<c:when test="${question.tagAttribute.type eq 'radio'}">
-			<div data-qId="${question.id }">
+			<div data-question-id="${question.id }">
 				<p>${question.questionNumber}. <span>${question.description }</span></p>
 				<c:forEach items="${question.choices}" var="choice" varStatus="loop">
 					<div class="dropContainer dropContainerCheckBox" data-question-id="${question.id }" data-choice-index="${loop.index }">

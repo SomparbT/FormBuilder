@@ -144,9 +144,14 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/formToPdf/listForm.jsp" />
 	</definition>
 	
-	<definition name="formToPdf/mappingForm" extends="template">
-		<put-attribute name="title" value="Mapping Form" />
-		<put-attribute name="content" value="/WEB-INF/jsp/formToPdf/mappingForm.jsp" />
+	<definition name="formToPdf/mappingPdf" extends="template">
+		<put-attribute name="title" value="Mapping PDF" />
+		<put-attribute name="content" value="/WEB-INF/jsp/formToPdf/mappingPdf.jsp" />
+	</definition>
+	
+	<definition name="formToPdf/mappingField" extends="template">
+		<put-attribute name="title" value="Mapping Field" />
+		<put-attribute name="content" value="/WEB-INF/jsp/formToPdf/mappingField.jsp" />
 	</definition>
 	
 	<definition name="formToPdf/listPrintForm" extends="template">

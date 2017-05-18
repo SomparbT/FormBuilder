@@ -62,21 +62,35 @@ public class FormToPdfController {
 		return "formToPdf/listPrintForm";
 	}
 
-	@GetMapping("/formToPdf/mappingForm.html")
-	public String mappingForm(@RequestParam Integer id, @RequestParam Integer pageNum, ModelMap models) {
+	@GetMapping("/formToPdf/mappingPdf.html")
+	public String mappingPdf(ModelMap models) {
+
+
+		List<Form> forms = formDao.getForms();
+		List<Pdf> pdfs = pdfDao.getPdfs();
+
+		models.put("forms", forms);
+		models.put("pdfs", pdfs);
+
+		return "formToPdf/mappingPdf";
+	}
+
+	@GetMapping("/formToPdf/mappingField.html")
+	public String mappingField(@RequestParam Integer id, @RequestParam Integer pageNum, ModelMap models) {
 
 		Form form = formDao.getForm(id);
 		if (pageNum > form.getTotalPages())
 			return "redirect:/formToPdf/mappingPage.html?id=" + id + "&pageNum=1";
 		List<Question> questionsPage = form.getQuestionsPage(pageNum);
 		
-		List<Pdf> pdfs = pdfDao.getPdfs();
+		List<Pdf> pdfs = form.getPdfs();
 		
 		
 		models.put("form", form);
 		models.put("questionsPage", questionsPage);
 		models.put("pdfs", pdfs);
-		return "formToPdf/mappingForm";
+
+		return "formToPdf/mappingField";
 	}
 
 	@GetMapping("/formToPdf/printForm.html")

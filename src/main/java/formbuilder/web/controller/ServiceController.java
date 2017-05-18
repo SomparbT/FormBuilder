@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import formbuilder.model.pdfform.Pdf;
 import formbuilder.model.pdfform.PdfField;
 import formbuilder.model.pdfform.dao.PdfDao;
+import formbuilder.model.questionform.Form;
 import formbuilder.model.questionform.Question;
 import formbuilder.model.questionform.dao.FormDao;
 
@@ -31,10 +33,39 @@ public class ServiceController {
 
 	}
 
+	@PostMapping("/service/mapPdf/{formId}/{pdfId}")
+	@ResponseBody
+	public void mapPdf(@PathVariable Integer formId, @PathVariable Integer pdfId) {
+
+		Form form = formDao.getForm(formId);
+		Pdf pdf = pdfDao.getPdf(pdfId);
+		form.addPdf(pdf);
+		formDao.saveForm(form);
+	}
+
+	@PostMapping("/service/unmapPdf/{formId}/{pdfId}")
+	@ResponseBody
+	public void unmapPdf(@PathVariable Integer formId, @PathVariable Integer pdfId) {
+
+		Form form = formDao.getForm(formId);
+		Pdf pdf = pdfDao.getPdf(pdfId);
+
+		// unmap field before unmap pdf
+		List<PdfField> fields = pdf.getFields();
+		for (PdfField field : fields) {
+			if (field.getQuestion() != null) {
+				field.getQuestion().removeField(field);
+			}
+		}
+
+		form.removePdf(pdf);
+		formDao.saveForm(form);
+	}
+
 	@PostMapping("/service/mapField/{qId}/{fieldId}")
 	@ResponseBody
 	public void mapField(@PathVariable Integer qId, @PathVariable Integer fieldId) {
-		System.out.println("service reach");
+
 		Question question = formDao.getQuestion(qId);
 		PdfField field = pdfDao.getField(fieldId);
 		question.addField(field);

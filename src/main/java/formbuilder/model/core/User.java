@@ -1,9 +1,11 @@
 package formbuilder.model.core;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CollectionTable;
@@ -76,11 +78,16 @@ public class User implements Serializable, UserDetails {
 	@ManyToMany(mappedBy = "users")
 	private Set<Form> forms;
 
+	@ElementCollection
+	@CollectionTable(name = "filled_forms", joinColumns = @JoinColumn(name = "user_id"))
+	private List<String> filledForms;
+
 	public User() {
 		enabled = true;
 		roles = new HashSet<String>();
 		roles.add("ROLE_USER");
 		forms = new HashSet<Form>();
+		filledForms = new ArrayList<String>();
 	}
 
 	public int getId() {
@@ -193,6 +200,14 @@ public class User implements Serializable, UserDetails {
 
 	public void setForms(Set<Form> forms) {
 		this.forms = forms;
+	}
+
+	public List<String> getFilledForms() {
+		return filledForms;
+	}
+
+	public void setFilledForms(List<String> filledForms) {
+		this.filledForms = filledForms;
 	}
 
 	@Override

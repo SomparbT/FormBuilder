@@ -62,7 +62,7 @@ public class PdfController {
 
 		String fileName = uploadFile.getOriginalFilename();
 		String fileType = fileName.substring(fileName.lastIndexOf('.') + 1);
-		String filePath = uploadLocation + "/PDFresource/" + fileName;
+		String filePath = uploadLocation + "PDFresource/" + fileName;
 
 		if (!fileType.equalsIgnoreCase("pdf")) {
 			redirectAttributes.addFlashAttribute("message", "Please select pdf file only");
@@ -78,10 +78,10 @@ public class PdfController {
 			// add suffix to file name if upload existing file name
 			if (file.exists()) {
 				String fileNameNoExt = FilenameUtils.getBaseName(fileName);
-				filePath = uploadLocation + "/PDFresource/" + fileNameNoExt + " - Copy." + fileType;
+				filePath = uploadLocation + "PDFresource/" + fileNameNoExt + " - Copy." + fileType;
 				file = new File(filePath);
 				if (file.exists()) {
-					filePath = uploadLocation + "/PDFresource/" + fileNameNoExt + " - Copy (%d)." + fileType;
+					filePath = uploadLocation + "PDFresource/" + fileNameNoExt + " - Copy (%d)." + fileType;
 					for (int i = 1;; i++) {
 						file = new File(String.format(filePath, i));
 						if (!file.exists()) {
@@ -130,10 +130,14 @@ public class PdfController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
-			redirectAttributes.addFlashAttribute("message", "This file has no field!");
+			redirectAttributes.addFlashAttribute("message", "Failed to upload. This file has no field!");
 			return "redirect:/pdf/listPdf.html";
 		} finally {
 			pdfTemplate.close();
+			File file = new File(filePath);
+			System.out.println(filePath);
+			System.out.println(file.exists());
+			System.out.println(file.delete());
 		}
 
 		return "redirect:/pdf/listPdf.html";
@@ -194,7 +198,7 @@ public class PdfController {
 	public void downloadPdf(HttpServletResponse response, @RequestParam Integer fileId) throws IOException {
 
 		Pdf pdf = pdfDao.getPdf(fileId);
-		String filePath = uploadLocation + "/PDFresource/" + pdf.getName();
+		String filePath = uploadLocation + "PDFresource/" + pdf.getName();
 		File file = new File(filePath);
 		String mimeType = URLConnection.guessContentTypeFromName(file.getName());
 		if (mimeType == null) {
@@ -233,7 +237,7 @@ public class PdfController {
 	public String deletePdf(@RequestParam Integer fileId) {
 
 		Pdf pdf = pdfDao.getPdf(fileId);
-		String filePath = uploadLocation + "/PDFresource/" + pdf.getName();
+		String filePath = uploadLocation + "PDFresource/" + pdf.getName();
 		File file = new File(filePath);
 		file.delete();
 		pdfDao.deletePdf(fileId);
@@ -245,7 +249,7 @@ public class PdfController {
 	public String renamePdf(@RequestParam Integer fileId, @RequestParam String newFileName) {
 
 		Pdf pdf = pdfDao.getPdf(fileId);
-		String filePath = uploadLocation + "/PDFresource/" + pdf.getName();
+		String filePath = uploadLocation + "PDFresource/" + pdf.getName();
 		File file = new File(filePath);
 		File newFile = new File(file.getParentFile() + "/" + newFileName + ".pdf");
 		file.renameTo(newFile);

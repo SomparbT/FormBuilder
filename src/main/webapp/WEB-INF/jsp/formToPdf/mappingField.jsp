@@ -58,7 +58,7 @@
 					<c:otherwise>
 						<div>
 							<c:forEach items="${questionsPage}" var="question">
-								<div class="question" data-qid="${question.id}">
+								<div class="question"">
 									<formbuilder:fieldMappingDisplay question="${question}"></formbuilder:fieldMappingDisplay>
 								</div>
 							</c:forEach>
