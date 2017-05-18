@@ -7,10 +7,14 @@
 		<div><label>Description</label></div>			
 		<form:input path="description" cssClass="form-control" required="required"/>
 	</div>
+	<div><label>Control</label><a class="btn btn-link" href="#textControlEditSection" data-toggle="collapse">Hide</a></div>
+		<div class="collapse" id="textControlEditSection">
+			<form:checkbox path="tagAttribute.required" label="Required" />
+		</div>
 	<div><label>Appearance</label><a class="btn btn-link" href="#textAppearanceEditSection" data-toggle="collapse">Hide</a></div>
 		<div class="collapse in" id="textAppearanceEditSection">
 			<div class="form-group">
-				<div><label>Input Type</label></div>
+				<label>Input Type</label>
 				<form:select path="tagAttribute.inputType" cssClass="form-control">
 	            	<form:option value="text" label="Text" />
 	            	<form:option value="email" label="Email" />
@@ -21,7 +25,7 @@
             	</form:select>			
 			</div>
 			<div class="form-group">
-				<div><label>Size</label></div>
+				<label>Size</label>
 				<form:select path="tagAttribute.size" cssClass="form-control">
 	            	<form:option value="col-lg-3" label="Small" />
 	            	<form:option value="col-lg-6" label="Medium" />
@@ -29,7 +33,7 @@
             	</form:select>			
 			</div>
 			<div class="form-group">
-				<div><label>Placeholder</label></div>			
+				<label>Placeholder</label>			
 				<form:input path="tagAttribute.placeholder" cssClass="form-control"/>
 			</div>
 		</div>

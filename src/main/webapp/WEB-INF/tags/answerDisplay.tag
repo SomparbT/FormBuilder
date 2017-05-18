@@ -33,9 +33,12 @@
 				</c:when>
 			</c:choose>	
 
-				
-				<form:input path="questions[${index }].answers[0].text" cssClass="form-control" required="${question.tagAttribute.required }"/>
-					
+			<c:if test="${question.tagAttribute.required }">	
+				<form:input path="questions[${index }].answers[0].text" cssClass="form-control input-lg" type="${question.tagAttribute.inputType}" required="required"/>
+			</c:if>
+			<c:if test="${!question.tagAttribute.required }">	
+				<form:input path="questions[${index }].answers[0].text" cssClass="form-control input-lg" type="${question.tagAttribute.inputType}"/>
+			</c:if>		
 
 			</div>
 		</c:when>
@@ -47,8 +50,12 @@
 					${question.description }</label>
 			</div>
 			<div class="${question.tagAttribute.size }">
-				<form:input path="questions[${index }].answers[0].text" cssClass="form-control" required="${question.tagAttribute.required }"/>
-				
+				<c:if test="${question.tagAttribute.required }">
+					<form:input path="questions[${index }].answers[0].text" cssClass="form-control" required="required"/>				
+				</c:if>
+				<c:if test="${!question.tagAttribute.required }">
+					<form:input path="questions[${index }].answers[0].text" cssClass="form-control" />				
+				</c:if>
 			</div>
 		</c:when>
 
@@ -59,9 +66,12 @@
 					${question.description }</label>
 			</div>
 			<div class="${question.tagAttribute.size }">
-
-				<form:textarea path="questions[${index }].answers[0].text" cssClass="form-control" rows="${question.tagAttribute.rows}" required="${question.tagAttribute.required }"/>			
-
+				<c:if test="${question.tagAttribute.required }">
+					<form:textarea path="questions[${index }].answers[0].text" cssClass="form-control" rows="${question.tagAttribute.rows}" required="required"/>			
+				</c:if>
+				<c:if test="${!question.tagAttribute.required }">
+					<form:textarea path="questions[${index }].answers[0].text" cssClass="form-control" rows="${question.tagAttribute.rows}"/>			
+				</c:if>
 			</div>
 		</c:when>
 
@@ -87,7 +97,12 @@
 					${question.description }</label>
 			</div>
 			<c:forEach items="${question.choices}" var="choice" varStatus="loop">
-				<form:radiobutton path="questions[${index }].answers[0].selections[0]" value="${loop.index }" label="${choice }" /> 				
+				<c:if test="${question.tagAttribute.required }">
+					<form:radiobutton path="questions[${index }].answers[0].selections[0]" value="${loop.index }" label="${choice }" required="required"/> 				
+				</c:if>
+				<c:if test="${!question.tagAttribute.required }">
+					<form:radiobutton path="questions[${index }].answers[0].selections[0]" value="${loop.index }" label="${choice }" /> 				
+				</c:if>
 			</c:forEach>
 		</c:when>
 
@@ -98,10 +113,18 @@
 					${question.description}</label>
 			</div>
 			<div class="${question.tagAttribute.size }">
-				<form:select path="questions[${index }].answers[0].selections[0]" class="form-control">
-		            <form:option value="NONE" label="--- Select ---" />
-		            <form:options items="${question.choices }"/>
-	            </form:select>
+				<c:if test="${question.tagAttribute.required }">
+					<form:select path="questions[${index }].answers[0].selections[0]" class="form-control" required="required">
+			            <form:option value="" label="--- Select ---" />
+			            <form:options items="${question.choices }"/>
+		            </form:select>
+				</c:if>
+				<c:if test="${!question.tagAttribute.required }">
+					<form:select path="questions[${index }].answers[0].selections[0]" class="form-control">
+			            <form:option value="" label="--- Select ---" />
+			            <form:options items="${question.choices }"/>
+		            </form:select>
+				</c:if>
             </div>
 		</c:when>
 		<c:when test="${question.tagAttribute.type eq 'file'}">
