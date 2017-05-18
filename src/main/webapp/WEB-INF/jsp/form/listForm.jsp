@@ -9,8 +9,8 @@
 			<tr>
 				<th>Form Name</th>
 				<th>Description</th>
-				<th>Enabled</th>
-				<th>Total Pages</th>
+				<th style="text-align:center">Enabled</th>
+				<th style="text-align:center">Total Pages</th>
 				<th style="text-align:center">Operations</th>
 			</tr>
 		</thead>
@@ -19,8 +19,8 @@
 				<tr>
 					<td style="vertical-align: middle;">${form.name}</td>
 					<td style="vertical-align: middle;">${form.description}</td>
-					<td style="vertical-align: middle;">${form.enabled}</td>
-					<td style="vertical-align: middle;">${form.totalPages}</td>
+					<td style="vertical-align: middle; text-align:center;">${form.enabled}</td>
+					<td style="vertical-align: middle; text-align:center;">${form.totalPages}</td>
 					<td>
 						<a class="btn" href="viewPage.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="View Form"><i class="glyphicon glyphicon-eye-open"></i></a>
 						<a class="btn" href="editPage.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="Edit Form Page"><i class="glyphicon glyphicon-pencil"></i></a>

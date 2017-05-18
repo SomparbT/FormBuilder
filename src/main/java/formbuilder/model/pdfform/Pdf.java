@@ -11,13 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "pdfs")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Pdf implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -27,7 +24,7 @@ public class Pdf implements Serializable {
 	private String name;
 
 	@OneToMany(mappedBy = "pdf", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties("pdf")
+	@JsonIgnore
 	List<PdfField> fields;
 
 	private boolean enabled;

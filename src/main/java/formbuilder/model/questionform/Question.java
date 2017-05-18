@@ -17,9 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import formbuilder.model.pdfform.PdfField;
 
@@ -27,7 +25,6 @@ import formbuilder.model.pdfform.PdfField;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "questions")
 @DiscriminatorColumn(name = "question_type")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public abstract class Question implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -39,7 +36,7 @@ public abstract class Question implements Serializable {
 	protected String description;
 
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("question")
+	@JsonIgnore
 	protected List<Answer> answers;
 
 	@Column(name = "question_number")
@@ -48,7 +45,7 @@ public abstract class Question implements Serializable {
 	protected boolean enabled;
 
 	@ManyToOne
-	@JsonIgnoreProperties("questions")
+	@JsonIgnore
 	protected Form form;
 
 	@Column(name = "page_number")
@@ -58,7 +55,7 @@ public abstract class Question implements Serializable {
 	protected TagAttribute tagAttribute;
 
 	@OneToMany(mappedBy = "question")
-	@JsonIgnoreProperties("question")
+	@JsonIgnore
 	protected List<PdfField> fields;
 
 	public Question() {

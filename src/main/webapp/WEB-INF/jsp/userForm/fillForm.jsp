@@ -7,26 +7,8 @@
 <div class="row">
 <div class="col-md-offset-3 col-md-6">
 
-	<div class="text-center">
-		<nav aria-label="Page navigation">
-			<ul class="pagination">
-				<li><a href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-				</a></li>
-				<c:forEach begin="1" end="${form.totalPages}" step="1" var="i">
-					<c:choose>
-						<c:when test="${param.pageNum eq i }">
-							<li class="active"><a href="" onclick="return false">${i} </a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a href="fillForm.html?uId=${param.uId}&fId=${param.fId}&pageNum=${i}">${i} </a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
-			</ul>
-		</nav>
-	</div>
+	<formbuilder:pagination href_path="fillForm.html" href_staticParameter="uId=${param.uId}&fId=${param.fId}" href_dynamicParameter="pageNum" currentPage="${param.pageNum}" totalPages="${form.totalPages}"></formbuilder:pagination>
+	
 
 	<H2>FORM : ${form.name}</H2>
 	<div class="panel panel-primary">
@@ -54,26 +36,8 @@
 		</div>
 	</div>
 
-	<div class="text-center">
-		<nav aria-label="Page navigation">
-			<ul class="pagination">
-				<li><a href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-				</a></li>
-				<c:forEach begin="1" end="${form.totalPages}" step="1" var="i">
-					<c:choose>
-						<c:when test="${param.pageNum eq i }">
-							<li class="active"><a href="" onclick="return false">${i} </a></li>
-						</c:when>
-						<c:otherwise>
-							<li><a href="fillForm.html?uId=${param.uId}&fId=${param.fId}&pageNum=${i}">${i} </a></li>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
-			</ul>
-		</nav>
-	</div>
+	<formbuilder:pagination href_path="fillForm.html" href_staticParameter="uId=${param.uId}&fId=${param.fId}" href_dynamicParameter="pageNum" currentPage="${param.pageNum}" totalPages="${form.totalPages}"></formbuilder:pagination>
+	
 
 </div>
 </div>

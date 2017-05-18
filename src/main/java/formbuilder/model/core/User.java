@@ -22,15 +22,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import formbuilder.model.questionform.Form;
 
 @Entity
 @Table(name = "users")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User implements Serializable, UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -79,7 +74,6 @@ public class User implements Serializable, UserDetails {
 	private boolean enabled;
 
 	@ManyToMany(mappedBy = "users")
-	@JsonIgnoreProperties("users")
 	private Set<Form> forms;
 
 	public User() {

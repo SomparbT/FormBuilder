@@ -9,8 +9,8 @@
 			<tr>
 				<th>Form Name</th>
 				<th>Description</th>
-				<th>Enabled</th>
-				<th>Total Pages</th>
+				<th style="text-align:center">Enabled</th>
+				<th style="text-align:center">Total Pages</th>
 				<th style="text-align:center">Operations</th>
 			</tr>
 		</thead>
@@ -19,8 +19,8 @@
 				<tr>
 					<td style="vertical-align: middle;">${form.name}</td>
 					<td style="vertical-align: middle;">${form.description}</td>
-					<td style="vertical-align: middle;">${form.enabled}</td>
-					<td style="vertical-align: middle;">${form.totalPages}</td>
+					<td style="vertical-align: middle; text-align:center;">${form.enabled}</td>
+					<td style="vertical-align: middle; text-align:center;">${form.totalPages}</td>
 					<td>
 						<a class="btn" href="mappingForm.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="Mapping Form"><i class="glyphicon glyphicon-transfer"></i></a>						
 						<a class="btn" href="listPrintForm.html?id=${form.id}" data-toggle="tooltip" title="Print Form"><i class="glyphicon glyphicon-open-file"></i></a>

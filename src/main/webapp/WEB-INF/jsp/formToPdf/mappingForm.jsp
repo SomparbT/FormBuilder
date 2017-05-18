@@ -10,7 +10,7 @@
 	border: 1.5px solid #eee;
 	border-radius: 5px;
 }
-.active {
+.custom-active {
             background : #ffffe0;
             border-style: dashed;
             border-width: 1px;
@@ -44,7 +44,8 @@
 
 <div class="row">
 	<div class="col-md-offset-1 col-md-7">
-		<H3>FORM LIVE PREVIEW</H3>
+		<formbuilder:pagination href_path="mappingForm.html" href_staticParameter="id=${param.id}" href_dynamicParameter="pageNum" currentPage="${param.pageNum}" totalPages="${form.totalPages}"></formbuilder:pagination>
+		<H3>FORM MAPPING TEMPLATE</H3>
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h4 class="panel-title">PAGE ${param.pageNum}</h4>
@@ -66,6 +67,7 @@
 				</c:choose>
 			</div>
 		</div>
+		<formbuilder:pagination href_path="mappingForm.html" href_staticParameter="id=${param.id}" href_dynamicParameter="pageNum" currentPage="${param.pageNum}" totalPages="${form.totalPages}"></formbuilder:pagination>
 	</div>
 
 	<div class="col-md-4" style="position: fixed; right: 0; height: 90%; ">
@@ -86,10 +88,10 @@
 				     <button id="chooseBtn" class="btn btn-primary btn-sm btn-raised" style="padding-left: 3em; padding-right: 3em;">Choose</button>
 				</div>
 				<hr />
-				<p class="text-center">Drag field name from here to map the form field.</p>
 				
 				
 				<div id="fieldContainer">
+					<p class="text-center">Drag field name from here to map the form field.</p>
 				
 				</div>
 				
@@ -97,26 +99,7 @@
 			</div>
 		</div>
 
-		<div class="text-center">
-			<nav aria-label="Page navigation">
-				<ul class="pagination">
-					<li><a href="#" aria-label="Previous"> <span aria-hidden="true">&laquo;</span>
-					</a></li>
-					<c:forEach begin="1" end="${form.totalPages}" step="1" var="i">
-						<c:choose>
-							<c:when test="${param.pageNum eq i }">
-								<li class="active"><a href="" onclick="return false">${i} </a></li>
-							</c:when>
-							<c:otherwise>
-								<li><a href="editPage.html?id=${param.id}&pageNum=${i}">${i} </a></li>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-					<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-					</a></li>
-				</ul>
-			</nav>
-		</div>
+		
 	</div>
 </div>
 
@@ -171,7 +154,7 @@
 			$selectPdf.val("");
 	        $selectPdf.attr("disabled", false);
 	        $chooseBtn.prop("disabled", true);
-	        $fieldContainer.empty();
+	        $(".field").remove();
 	    });
 		
 		$chooseBtn.on("click", function () {
@@ -184,12 +167,11 @@
 		        method: "GET",
 		        dataType: "json",
 		        success: function(data) {
+		        	console.log(data.length);
 		        	data.forEach(function (field) {
-		        		console.log(field);
-		        		if(field.question === null){
 		        			switch(field.fieldType){
 		        			case "PDTextField" :
-				        		var dragField = $("<div class='field fieldText btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id=''><span class='glyphicon btn-glyphicon glyphicon-font img-circle text-primary'></span>" + field.name + "</div>").draggable({
+				        		var $dragField = $("<div class='field fieldText btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id=''><span class='glyphicon btn-glyphicon glyphicon-font img-circle text-primary'></span>" + field.name + "</div>").draggable({
 				        		    appendTo: "body",
 				        		    cursor: "move",
 				        		    helper: 'clone',
@@ -197,7 +179,7 @@
 				        		});
 				        		break;
 		        			case "PDCheckBox" :
-				        		var dragField = $("<div class='field fieldCheckBox btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id='' data-choice-index=''><span class='glyphicon btn-glyphicon glyphicon-check img-circle text-primary'></span>" + field.name + "</div>").draggable({
+				        		var $dragField = $("<div class='field fieldCheckBox btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id='' data-choice-index=''><span class='glyphicon btn-glyphicon glyphicon-check img-circle text-primary'></span>" + field.name + "</div>").draggable({
 				        		    appendTo: "body",
 				        		    cursor: "move",
 				        		    helper: 'clone',
@@ -205,7 +187,7 @@
 				        		});
 				        		break;
 		        			case "PDComboBox" :
-				        		var dragField = $("<div class='field fieldComboBox btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id=''><span class='glyphicon btn-glyphicon glyphicon-collapse-down img-circle text-primary'></span>" + field.name + "</div>").draggable({
+				        		var $dragField = $("<div class='field fieldComboBox btn icon-btn btn-primary' title='" + pdfName + "' data-field-id='" + field.id + "' data-question-id=''><span class='glyphicon btn-glyphicon glyphicon-collapse-down img-circle text-primary'></span>" + field.name + "</div>").draggable({
 				        		    appendTo: "body",
 				        		    cursor: "move",
 				        		    helper: 'clone',
@@ -213,11 +195,22 @@
 				        		});
 				        		break;
 		        			default :
-				        		var dragField = $("<div class='field btn icon-btn btn-danger' title='" + pdfName + "'><span class='glyphicon btn-glyphicon glyphicon-remove img-circle text-danger'></span>" + field.name + "</div>");
+				        		var $dragField = $("<div class='field btn icon-btn btn-danger' title='" + pdfName + "'><span class='glyphicon btn-glyphicon glyphicon-remove img-circle text-danger'></span>" + field.name + "</div>");
 				        		break;	
 		        			
 		        			}
-				 			$("#fieldContainer").append(dragField);	
+		        			console.log(field);
+		        			
+		        		if(field.question === null){
+				 			$("#fieldContainer").append($dragField);	
+		        		}else{
+		        			$dragField.attr("data-question-id", field.question.id);
+		        			if(field.fieldType === "PDCheckBox"){
+		        				$dragField.attr("data-choice-index", field.choiceIndex);
+		        				$( ".dropContainer[data-question-id='" + field.question.id +"'][data-choice-index='" + field.choiceIndex +"']" ).append($dragField);
+		        			}else{
+		        				$( ".dropContainer[data-question-id='" + field.question.id +"']" ).append($dragField);
+		        			}
 		        		}
 		        	});
 		        }
@@ -259,7 +252,7 @@
 		    tolerance: "intersect",
 		    accept: ".fieldText",
 		    classes: {
-		        "ui-droppable-active": "active",
+		        "ui-droppable-active": "custom-active",
 		        "ui-droppable-hover": "ui-state-hover"
 		      },
 		    drop: function(event, ui) {  
@@ -285,7 +278,7 @@
 		    tolerance: "intersect",
 		    accept: ".fieldCheckBox",
 		    classes: {
-		        "ui-droppable-active": "active",
+		        "ui-droppable-active": "custom-active",
 		        "ui-droppable-hover": "ui-state-hover"
 		      },
 		    drop: function(event, ui) {        
@@ -312,7 +305,7 @@
 		    tolerance: "intersect",
 		    accept: ".fieldComboBox",
 		    classes: {
-		        "ui-droppable-active": "active",
+		        "ui-droppable-active": "custom-active",
 		        "ui-droppable-hover": "ui-state-hover"
 		      },
 		    drop: function(event, ui) {        
