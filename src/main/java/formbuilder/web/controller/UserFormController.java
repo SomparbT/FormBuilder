@@ -326,4 +326,23 @@ public class UserFormController {
 		return "redirect:/userForm/listFilledPdf";
 	}
 
+	@GetMapping("/userForm/renameFilledPdf.html")
+	public String renamePdf(@RequestParam Integer uId, @RequestParam String fileName,
+			@RequestParam String newFileName) {
+		fileName = fileName + ".pdf";
+		newFileName = newFileName + ".pdf";
+		System.out.println(fileName);
+		System.out.println(newFileName);
+		String path = uploadLocation + "uId_" + uId + "/PDFoutput/" + fileName;
+		File file = new File(path);
+		File newFile = new File(file.getParentFile() + "/" + newFileName);
+		file.renameTo(newFile);
+		User user = userDao.getUser(uId);
+		user.getFilledForms().remove(fileName);
+		user.getFilledForms().add(newFileName);
+		userDao.saveUser(user);
+
+		return "redirect:/userForm/listFilledPdf.html?uId=" + uId;
+	}
+
 }

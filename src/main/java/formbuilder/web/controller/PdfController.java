@@ -245,6 +245,11 @@ public class PdfController {
 	public String deletePdf(@RequestParam Integer fileId) {
 
 		Pdf pdf = pdfDao.getPdf(fileId);
+		List<PdfField> fields = pdf.getFields();
+		for (PdfField field : fields) {
+			if (field.getQuestion() != null)
+				field.getQuestion().removeField(field);
+		}
 		String filePath = uploadLocation + "PDFresource/" + pdf.getName();
 		File file = new File(filePath);
 		file.delete();

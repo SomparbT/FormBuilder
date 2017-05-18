@@ -70,18 +70,33 @@
 		
 		
 		$('.renameBtn').on("click", function () {
-			var $td_pdf = $(this).closest("td").prev();
+			var $renameBtn = $(this);
+			var $td_pdf = $renameBtn.closest("td").prev();
 			var pdfId = $td_pdf.attr("data-pdf-id");
 			var pdfName = $td_pdf.html().slice(0,-4);
 			
 			var $renameForm = $("<form class='form-inline' method='get' action='renamePdf.html'>" 
+					+ "<div class='input-group'>"
 					+ "<input type='text' id='inputName' class='form-control' name='newFileName' placeholder='Type name here'>"
+					+ "<span class='input-group-btn'>"
+					+ "<button type='submit' id='submitBtn' class='btn btn-default btn-raised btn-sm'>Rename</button>"
+					+ "</span>"
+					+ "</div>"
 					+ "<input type='hidden' name='fileId' value=" + pdfId +">"
-					+ "<button type='submit' class='btn btn-default btn-sm btn-raised'>Rename</button>" 
 					+ "</form>");
+
 			$td_pdf.html("");
 			$td_pdf.append($renameForm);
 			$("#inputName").val(pdfName);
+			$("#inputName").focus().blur(function() {
+				var setTimer = { timer: null }
+				setTimer.timer = setTimeout(function () {
+					$renameBtn.prop("disabled", false);
+					$renameForm.remove();
+					$td_pdf.html(pdfName+".pdf");
+		            }, 1000);
+			});
+			$renameBtn.prop("disabled", true);
 	    });
 		
 		$(".autoBuildFormBtn").on("click", function () {

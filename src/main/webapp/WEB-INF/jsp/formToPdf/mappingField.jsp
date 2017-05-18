@@ -70,7 +70,7 @@
 		<formbuilder:pagination href_path="mappingForm.html" href_staticParameter="id=${param.id}" href_dynamicParameter="pageNum" currentPage="${param.pageNum}" totalPages="${form.totalPages}"></formbuilder:pagination>
 	</div>
 
-	<div class="col-md-4" style="position: fixed; right: 0; height: 90%; ">
+	<div class="col-md-4" style="position: auto; right: 0; height: 90%; ">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title">PDF FIELD CONTROL</h4>
