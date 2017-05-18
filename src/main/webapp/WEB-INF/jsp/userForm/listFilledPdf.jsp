@@ -18,11 +18,11 @@
 			<a href="viewFilledPdf.html?uId=${user.id}&filename=${filledForm}" target="_blank"><img src="<c:url value='/assets/resources/img/pdf.png' />" style="width: 25%;"></a>
 			<div><strong><a href="viewFilledPdf.html?uId=${user.id}&filename=${filledForm}" target="_blank">${filledForm}</a></strong></div>
 			<div class="btn-group btn-group-sm" role="group" aria-label="..." style="margin-left: 10px;">
-				<a href="downloadFilledPdf.html?uId=${user.id}&filename=${filledForm}" class="btn btn-success btn-raised" data-toggle="tooltip" data-placement="bottom" title="Duplicate this question">
+				<a href="downloadFilledPdf.html?uId=${user.id}&filename=${filledForm}" class="btn btn-success btn-raised" data-toggle="tooltip" data-placement="bottom" title="Download this PDF">
 				<span class="glyphicon glyphicon-cloud-download"></span></a> 
-				<a href="deletefilledPdf.html?uId=${user.id}&filename=${filledForm}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="bottom" title="Delete question">
+				<a href="deletefilledPdf.html?uId=${user.id}&filename=${filledForm}" class="btn btn-danger btn-raised" data-toggle="tooltip" data-placement="bottom" title="Delete this PDF">
 				<span class="glyphicon glyphicon-trash"></span></a> 
-				<a href="#" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="bottom" title="Edit this question">
+				<a href="#" class="btn btn-default btn-raised" data-toggle="tooltip" data-placement="bottom" title="Rename this PDF">
 				<span class="glyphicon glyphicon-pencil"></span></a> 
 			</div>
 		</div>

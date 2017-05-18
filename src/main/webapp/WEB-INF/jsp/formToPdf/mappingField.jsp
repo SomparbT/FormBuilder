@@ -167,7 +167,6 @@
 		        method: "GET",
 		        dataType: "json",
 		        success: function(data) {
-		        	console.log(data.length);
 		        	data.forEach(function (field) {
 		        			switch(field.fieldType){
 		        			case "PDTextField" :
@@ -196,10 +195,8 @@
 				        		break;
 		        			default :
 				        		var $dragField = $("<div class='field btn icon-btn btn-danger' title='" + pdfName + "'><span class='glyphicon btn-glyphicon glyphicon-remove img-circle text-danger'></span>" + field.name + "</div>");
-				        		break;	
-		        			
-		        			}
-		        			console.log(field);
+				        		break;		        			
+		        			}        			
 		        			
 		        		if(field.question === null){
 				 			$("#fieldContainer").append($dragField);	

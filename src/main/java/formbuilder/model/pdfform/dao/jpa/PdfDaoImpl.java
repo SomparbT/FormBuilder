@@ -26,7 +26,7 @@ public class PdfDaoImpl implements PdfDao {
 
 	@Override
 	public List<Pdf> getPdfs() {
-		return entityManager.createQuery("from Pdf", Pdf.class).getResultList();
+		return entityManager.createQuery("from Pdf order by id", Pdf.class).getResultList();
 	}
 
 	@Override

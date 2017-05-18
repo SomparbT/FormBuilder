@@ -73,19 +73,29 @@ public class PdfController {
 			// Get the file and save it somewhere
 			byte[] bytes = uploadFile.getBytes();
 			File file = new File(filePath);
+			System.out.println(filePath);
 			file.getParentFile().mkdirs();
 
 			// add suffix to file name if upload existing file name
+			System.out.println(file.exists());
 			if (file.exists()) {
 				String fileNameNoExt = FilenameUtils.getBaseName(fileName);
+				System.out.println(fileNameNoExt);
 				filePath = uploadLocation + "PDFresource/" + fileNameNoExt + " - Copy." + fileType;
+				System.out.println(filePath);
 				file = new File(filePath);
+				fileName = file.getName();
 				if (file.exists()) {
+					System.out.println(file.exists());
 					filePath = uploadLocation + "PDFresource/" + fileNameNoExt + " - Copy (%d)." + fileType;
+					System.out.println(filePath);
 					for (int i = 1;; i++) {
 						file = new File(String.format(filePath, i));
 						if (!file.exists()) {
 							fileName = file.getName();
+							filePath = file.getAbsolutePath();
+							System.out.println(fileName);
+							System.out.println(filePath);
 							break;
 						}
 					}

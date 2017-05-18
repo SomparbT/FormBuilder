@@ -5,6 +5,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
+
 <h1 align=center>PDF Management</h1>
 
 
@@ -16,13 +17,13 @@
 
 		<div class="panel-body">
 			<form method="post" action="uploadPdf.html" class="dropzone"
-				enctype="multipart/form-data" id="my-awesome-dropzone">
+				enctype="multipart/form-data" id="dropzonePdf">
 				<div>
 					<div class="form-group">
 						<input type="file" name="uploadFile"
 							onchange="this.form.submit()"> <input
 							type="text" class="form-control"
-							placeholder="Browse or Drag your PDF here to upload" readonly>
+							placeholder="Browse or Drop your PDF here to upload" readonly>
 					</div>
 					${message }
 				</div>
@@ -43,13 +44,13 @@
 		<tbody>
 			<c:forEach items="${pdfs}" var="pdf">
 				<tr>
-					<td style="vertical-align: middle;">${pdf.name}</td>
+					<td style="vertical-align: middle;" data-pdf-id="${pdf.id }">${pdf.name}</td>
 					<td>
 						<a class="btn" href="viewPdf.html?fileId=${pdf.id}" data-toggle="tooltip" title="View PDF" target="_blank"><i class="glyphicon glyphicon-eye-open"></i></a>
 						<a class="btn" href="downloadPdf.html?fileId=${pdf.id}" data-toggle="tooltip" title="Download PDF"><i class="glyphicon glyphicon-floppy-save"></i></a>
 						<a class="btn" href="deletePdf.html?fileId=${pdf.id}" data-toggle="tooltip" title="Delete PDf"><i class="glyphicon glyphicon-trash"></i></a>
-						<a class="btn" href="renamePdf.html?fileId=${pdf.id}" data-toggle="tooltip" title="Rename PDF"><i class="glyphicon glyphicon-pencil"></i></a>
-						<a class="btn" href="" data-toggle="tooltip" title="Mapping Form"><i class="glyphicon glyphicon-text-background"></i></a>						
+						<button class="btn renameBtn" data-toggle="tooltip" title="Rename PDF" onclick="this.blur()"><i class="glyphicon glyphicon-pencil"></i></button>					
+						<button class="btn autoBuildFormBtn" data-toggle="tooltip" title="Auto Build Form" data-pdf-id="${pdf.id }" onclick="this.blur()"><i class="glyphicon glyphicon-flash"></i></button>										
 					</td>
 				</tr>
 			</c:forEach>
@@ -63,9 +64,38 @@
 <script src="<c:url value='/assets/dropzone/dropzone.js' />"></script>
 
 <script>
-	$(document).ready(function() {
+	$(function() {
 		$('#pdfTable').DataTable();
 		$('#pdfTable_filter').addClass('form-group');
+		
+		
+		$('.renameBtn').on("click", function () {
+			var $td_pdf = $(this).closest("td").prev();
+			var pdfId = $td_pdf.attr("data-pdf-id");
+			var pdfName = $td_pdf.html().slice(0,-4);
+			
+			var $renameForm = $("<form class='form-inline' method='get' action='renamePdf.html'>" 
+					+ "<input type='text' id='inputName' class='form-control' name='newFileName' placeholder='Type name here'>"
+					+ "<input type='hidden' name='fileId' value=" + pdfId +">"
+					+ "<button type='submit' class='btn btn-default btn-sm btn-raised'>Rename</button>" 
+					+ "</form>");
+			$td_pdf.html("");
+			$td_pdf.append($renameForm);
+			$("#inputName").val(pdfName);
+	    });
+		
+		$(".autoBuildFormBtn").on("click", function () {
+	        var pdfId = $(this).attr("data-pdf-id");
+	        $.ajax({
+		        url: "/formbuilder/service/autoBuildForm/" + pdfId,
+		        method: "GET",
+		        dataType: "json",
+		        success: function(data) {
+		        	
+		        }
+		    });
+	    });		
+		
 	});
 </script>
 
