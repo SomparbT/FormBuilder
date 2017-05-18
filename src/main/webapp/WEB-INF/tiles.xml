@@ -126,6 +126,11 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/userForm/fillForm.jsp" />
 	</definition>
 	
+	<definition name="userForm/listFilledPdf" extends="template">
+		<put-attribute name="title" value="List Filled Pdf" />
+		<put-attribute name="content" value="/WEB-INF/jsp/userForm/listFilledPdf.jsp" />
+	</definition>
+	
 	<!-- ============= -->
     <!--      PDF      -->
     <!-- ============= -->

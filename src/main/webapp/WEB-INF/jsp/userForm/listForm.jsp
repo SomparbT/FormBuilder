@@ -14,9 +14,9 @@
 			<div class="row">	
 		</c:if>
 
-	   	<div class="col-md-4">
+	   	<div class="col-md-4" style="text-align: center;">
 			<a href="/formbuilder/userForm/fillForm.html?uId=${user.id}&fId=${form.id}&pageNum=1"><img src="<c:url value='/assets/resources/img/form.png' />"></a>
-			<div><a href="/formbuilder/userForm/fillForm.html?uId=${user.id}&fId=${form.id}&pageNum=1">${form.name}</a></div>
+			<div><strong><a href="/formbuilder/userForm/fillForm.html?uId=${user.id}&fId=${form.id}&pageNum=1">${form.name}</a></strong></div>
 			<span>${form.description}</span>
 		</div>
 		

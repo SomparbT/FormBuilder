@@ -24,13 +24,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -55,25 +54,22 @@ public class UserFormController {
 	@Autowired
 	private UserDao userDao;
 
-	@Autowired
-	private WebApplicationContext context;
-
 	@Value("${upload.location}")
 	private String uploadLocation;
 
-	@RequestMapping("/userForm/listForm.html")
-	public String listForm(@RequestParam Integer id, ModelMap models) {
+	@GetMapping("/userForm/listForm.html")
+	public String listForm(@RequestParam Integer uId, ModelMap models) {
 
-		models.put("user", userDao.getUser(id));
+		User user = userDao.getUser(uId);
+		Set<Form> forms = user.getForms();
 
-		Set<Form> forms = userDao.getUser(id).getForms();
-
+		models.put("user", user);
 		models.put("forms", forms);
 
 		return "userForm/listForm";
 	}
 
-	@RequestMapping(value = "/userForm/fillForm.html", method = RequestMethod.GET)
+	@GetMapping("/userForm/fillForm.html")
 	public String fillForm(@RequestParam Integer uId, @RequestParam Integer fId, @RequestParam Integer pageNum,
 			ModelMap models) {
 
@@ -135,7 +131,7 @@ public class UserFormController {
 		return "userForm/fillForm";
 	}
 
-	@RequestMapping(value = "/userForm/fillForm.html", method = RequestMethod.POST)
+	@PostMapping("/userForm/fillForm.html")
 	public String fillForm(@ModelAttribute Form form, @RequestParam Integer uId, @RequestParam Integer fId,
 			@RequestParam Integer pageNum, SessionStatus sessionStatus, HttpServletRequest request) {
 
@@ -159,7 +155,7 @@ public class UserFormController {
 						byte[] bytes = file.getBytes();
 						// Path is C:/temp/formbuilder/uId_XX/qId_YY/FILE
 						Path path = Paths
-								.get(context.getServletContext().getRealPath("/FileAnswer") + "/uId_" + uId + "/qId_"
+								.get(uploadLocation + "uId_" + uId + "/qId_"
 										+ qId + "/" + file.getOriginalFilename());
 						Files.createDirectories(path.getParent());
 						Files.write(path, bytes);
@@ -180,11 +176,11 @@ public class UserFormController {
 
 	}
 
-	@RequestMapping(value = "userForm/viewFileAnswer.html", method = RequestMethod.GET)
+	@GetMapping("userForm/viewFileAnswer.html")
 	public void viewFileAnswer(HttpServletResponse response, @RequestParam Integer uId, @RequestParam Integer qId,
 			@RequestParam String filename) throws IOException {
 
-		String path = context.getServletContext().getRealPath("/FileAnswer") + "/uId_" + uId + "/qId_" + qId + "/"
+		String path = uploadLocation + "uId_" + uId + "/qId_" + qId + "/"
 				+ filename;
 		File file = new File(path);
 
@@ -215,11 +211,11 @@ public class UserFormController {
 		FileCopyUtils.copy(inputStream, response.getOutputStream());
 	}
 
-	@RequestMapping(value = "userForm/deleteFileAnswer.html", method = RequestMethod.GET)
+	@GetMapping("userForm/deleteFileAnswer.html")
 	public String deleteFileAnswer(@RequestParam Integer uId, @RequestParam Integer fId, @RequestParam Integer pageNum,
 			@RequestParam Integer qId, @RequestParam String filename) {
 
-		String path = context.getServletContext().getRealPath("/FileAnswer") + "/uId_" + uId + "/qId_" + qId + "/"
+		String path = uploadLocation + "uId_" + uId + "/qId_" + qId + "/"
 				+ filename;
 		System.out.println("delete " + path);
 		File file = new File(path);
@@ -229,6 +225,105 @@ public class UserFormController {
 		formDao.saveAnswer(answer);
 
 		return "redirect:/userForm/fillForm.html?uId=" + uId + "&fId=" + fId + "&pageNum=" + pageNum;
+	}
+
+	@GetMapping("/userForm/listFilledPdf.html")
+	public String listFilledPdf(@RequestParam Integer uId, ModelMap models) {
+
+		User user = userDao.getUser(uId);
+		List<String> filledForms = user.getFilledForms();
+
+		models.put("user", user);
+		models.put("filledForms", filledForms);
+
+		return "userForm/listFilledPdf";
+	}
+
+	@GetMapping("userForm/viewFilledPdf.html")
+	public void viewFilledPdf(HttpServletResponse response, @RequestParam Integer uId, @RequestParam String filename)
+			throws IOException {
+
+		String path = uploadLocation + "uId_" + uId + "/PDFoutput/" + filename;
+		File file = new File(path);
+
+		if (!file.exists()) {
+			String errorMessage = "Sorry. The file you are looking for does not exist";
+			System.out.println("Sorry. The file you are looking for does not exist");
+			OutputStream outputStream = response.getOutputStream();
+			outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+			outputStream.close();
+			return;
+		}
+
+		String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+		if (mimeType == null) {
+			System.out.println(
+					"mimetype is not detectable, will take default" + file.getName() + " " + file.getAbsolutePath());
+			mimeType = "application/octet-stream";
+		}
+
+		System.out.println("mimetype : " + mimeType);
+
+		response.setContentType(mimeType);
+		response.setHeader("Content-Disposition", String.format("inline; filename=\"" + file.getName() + "\""));
+		response.setContentLength((int) file.length());
+
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+	}
+
+	@GetMapping("userForm/downloadFilledPdf.html")
+	public void downloadFilledPdf(HttpServletResponse response, @RequestParam Integer uId,
+			@RequestParam String filename) throws IOException {
+
+		String path = uploadLocation + "uId_" + uId + "/PDFoutput/" + filename;
+		File file = new File(path);
+		String mimeType = URLConnection.guessContentTypeFromName(file.getName());
+		if (mimeType == null) {
+			System.out.println(
+					"mimetype is not detectable, will take default" + file.getName() + " " + file.getAbsolutePath());
+			mimeType = "application/octet-stream";
+		}
+
+		response.setContentType(mimeType);
+
+		/*
+		 * "Content-Disposition : inline" will show viewable types [like
+		 * images/text/pdf/anything viewable by browser] right on browser while
+		 * others(zip e.g) will be directly downloaded [may provide save as
+		 * popup, based on your browser setting.]
+		 */
+		response.setHeader("Content-Disposition", String.format("atachment; filename=\"" + file.getName() + "\""));
+
+		/*
+		 * "Content-Disposition : attachment" will be directly download, may
+		 * provide save as popup, based on your browser setting
+		 */
+		// response.setHeader("Content-Disposition", String.format("attachment;
+		// filename=\"%s\"", file.getName()));
+
+		response.setContentLength((int) file.length());
+
+		InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+
+		// Copy bytes from source to destination(outputstream in this example),
+		// closes both streams.
+		FileCopyUtils.copy(inputStream, response.getOutputStream());
+	}
+
+	@GetMapping("userForm/deleteFilledPdf.html")
+	public String deleteFilledPdf(@RequestParam Integer uId, @RequestParam String filename) {
+
+		String path = uploadLocation + "uId_" + uId + "/PDFoutput/" + filename;
+		System.out.println("delete " + path);
+		File file = new File(path);
+		file.delete();
+		User user = userDao.getUser(uId);
+		user.getFilledForms().remove(filename);
+		userDao.saveUser(user);
+
+		return "redirect:/userForm/listFilledPdf";
 	}
 
 }

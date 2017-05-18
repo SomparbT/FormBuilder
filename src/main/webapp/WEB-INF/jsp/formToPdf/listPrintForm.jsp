@@ -29,6 +29,8 @@
 							<td style="vertical-align: middle;">${user.firstName}</td>
 							<td style="vertical-align: middle;">${user.lastName}</td>
 							<td>
+								<a class="btn" href="/formbuilder/userForm/listFilledPdf.html?uId=${user.id}" data-toggle="tooltip" title="View Filled PDF">
+								<i class="glyphicon glyphicon-eye-open"></i></a>
 								<a class="btn" href="/formbuilder/userForm/fillForm.html?uId=${user.id}&fId=${form.id}&pageNum=1" data-toggle="tooltip" title="Edit Answer">
 								<i class="glyphicon glyphicon-pencil"></i></a>
 								<a class="btn" href="printForm.html?fId=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Print Form">

@@ -23,8 +23,8 @@
 				
 				<security:authorize access="hasRole('ROLE_USER')">
 				  <li><a href="/formbuilder/userHome.html">Home</a></li>
-			  	  <li><a href="/formbuilder/userForm/listForm.html?id=${principal.id}">My Forms</a></li>
-		  	      <li><a href="#">Download PDFs</a></li>
+			  	  <li><a href="/formbuilder/userForm/listForm.html?uId=${principal.id}">My Forms</a></li>
+		  	      <li><a href="/formbuilder/userForm/listFilledPdf.html?uId=${principal.id}">My PDFs</a></li>
 				  <li><a href="#">Help</a></li>
 				</security:authorize>
 				

@@ -7,8 +7,8 @@
 	<div class="jumbotron">
 		<h2>Welcome ${principal.username} to Formbuilder</h2>
 		<ul>
-			<li><a href="/formbuilder/userForm/listForm.html?id=${principal.id} ">My Forms</a></li>
-			<li><a href="#">Download PDFs</a></li>
+			<li><a href="/formbuilder/userForm/listForm.html?uId=${principal.id} ">My Forms</a></li>
+			<li><a href="/formbuilder/userForm/listFilledPdf.html?uId=${principal.id}">My PDFs</a></li>
 			<li><a href="#">Help</a></li>
 		</ul>
 		
