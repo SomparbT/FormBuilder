@@ -4,7 +4,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <div class="container">
-	<h2>Form assignment of : ${form.name }</h2>
+	<h2>Form printing of : ${form.name }</h2>
 	<table id="userTable" class="table table-striped table-bordered">
 		<thead>
 			<tr>
@@ -16,25 +16,27 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${users}" var="user">
-				<c:set var="contains" value="false" />
-				<c:forEach items="${user.forms}" var="item">
-					<c:if test="${item eq form}">
-						<c:set var="contains" value="true" />
+			<c:if test="${user.role eq 'ROLE_USER' }">
+					<c:set var="contains" value="false" />
+					<c:forEach items="${user.forms}" var="item">
+						<c:if test="${item eq form}">
+							<c:set var="contains" value="true" />
+						</c:if>
+					</c:forEach>
+					<c:if test="${contains }">
+						<tr>
+							<td style="vertical-align: middle;">${user.username}</td>
+							<td style="vertical-align: middle;">${user.firstName}</td>
+							<td style="vertical-align: middle;">${user.lastName}</td>
+							<td>
+								<a class="btn" href="/formbuilder/userForm/fillForm.html?uId=${user.id}&fId=${form.id}&pageNum=1" data-toggle="tooltip" title="Edit Answer">
+								<i class="glyphicon glyphicon-pencil"></i></a>
+								<a class="btn" href="printForm.html?fId=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Print Form">
+								<i class="glyphicon glyphicon-print"></i></a>
+							</td>
+						</tr>
 					</c:if>
-				</c:forEach>
-				<c:if test="${contains }">
-					<tr>
-						<td style="vertical-align: middle;">${user.username}</td>
-						<td style="vertical-align: middle;">${user.firstName}</td>
-						<td style="vertical-align: middle;">${user.lastName}</td>
-						<td>
-							<a class="btn" href="/formbuilder/userForm/fillForm.html?uId=${user.id}&fId=${form.id}&pageNum=1" data-toggle="tooltip" title="Edit Answer">
-							<i class="glyphicon glyphicon-pencil"></i></a>
-							<a class="btn" href="printForm.html?fId=${form.id}&uId=${user.id}" data-toggle="tooltip" title="Print Form">
-							<i class="glyphicon glyphicon-print"></i></a>
-						</td>
-					</tr>
-				</c:if>
+				</c:if>	
 			</c:forEach>
 		</tbody>
 	</table>
@@ -64,11 +66,7 @@
 
 <script>
 	$(document).ready(function() {
-		$('#userTable').DataTable({
-			  "search": {
-				    "search": "User"
-				  }
-				});
+		$('#userTable').DataTable();
 		$('#userTable_filter').addClass('form-group');
 	});
 </script>

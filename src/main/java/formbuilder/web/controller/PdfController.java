@@ -130,14 +130,12 @@ public class PdfController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (NullPointerException e) {
+			File file = new File(filePath);
+			file.delete();
 			redirectAttributes.addFlashAttribute("message", "Failed to upload. This file has no field!");
 			return "redirect:/pdf/listPdf.html";
 		} finally {
 			pdfTemplate.close();
-			File file = new File(filePath);
-			System.out.println(filePath);
-			System.out.println(file.exists());
-			System.out.println(file.delete());
 		}
 
 		return "redirect:/pdf/listPdf.html";

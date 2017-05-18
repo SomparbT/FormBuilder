@@ -129,6 +129,7 @@ public class UserFormController {
 
 		models.put("form", form);
 		models.put("numQuestion", numQuestion);
+		models.put("user", user);
 
 
 		return "userForm/fillForm";

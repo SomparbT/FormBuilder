@@ -2,8 +2,12 @@ package formbuilder.web.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
@@ -54,17 +58,16 @@ public class FormToPdfController {
 	}
 
 	@GetMapping("/formToPdf/listPrintForm.html")
-	public String listPrintForm(@RequestParam Integer id, ModelMap models) {
+	public String listPrintForm(@RequestParam Integer fId, ModelMap models) {
 
 		// Set<User> users = form.getUsers();
-		models.put("form", formDao.getForm(id));
+		models.put("form", formDao.getForm(fId));
 		models.put("users", userDao.getUsers());
 		return "formToPdf/listPrintForm";
 	}
 
 	@GetMapping("/formToPdf/mappingPdf.html")
 	public String mappingPdf(ModelMap models) {
-
 
 		List<Form> forms = formDao.getForms();
 		List<Pdf> pdfs = pdfDao.getPdfs();
@@ -76,11 +79,11 @@ public class FormToPdfController {
 	}
 
 	@GetMapping("/formToPdf/mappingField.html")
-	public String mappingField(@RequestParam Integer id, @RequestParam Integer pageNum, ModelMap models) {
+	public String mappingField(@RequestParam Integer fId, @RequestParam Integer pageNum, ModelMap models) {
 
-		Form form = formDao.getForm(id);
+		Form form = formDao.getForm(fId);
 		if (pageNum > form.getTotalPages())
-			return "redirect:/formToPdf/mappingPage.html?id=" + id + "&pageNum=1";
+			return "redirect:/formToPdf/mappingField.html?fId=" + fId + "&pageNum=1";
 		List<Question> questionsPage = form.getQuestionsPage(pageNum);
 		
 		List<Pdf> pdfs = form.getPdfs();
@@ -99,8 +102,11 @@ public class FormToPdfController {
 		Form form = formDao.getForm(fId);
 		User user = userDao.getUser(uId);
 
-		Pdf pdf = pdfDao.getPdf(37);
-		String filePath = uploadLocation + "/PDFresource/" + pdf.getName();
+		List<Pdf> pdfs = form.getPdfs();
+
+		for (Pdf pdf : pdfs) {
+
+			String filePath = uploadLocation + "PDFresource/" + pdf.getName();
 		File file = new File(filePath);
 		PDDocument pdfTemplate = PDDocument.load(file);
 
@@ -110,9 +116,6 @@ public class FormToPdfController {
 		List<PdfField> fields = pdf.getFields();
 
 		for (PdfField field : fields) {
-			// acroForm.getField("text_" + i).setValue("text_" + i);
-			// acroForm.getField("cb" + i).setValue("Yes");
-			// ((PDCheckBox) acroForm.getField("cb" + i)).check();
 			if(field.getQuestion() != null){
 				Answer answer = formDao.getAnswer(user, field.getQuestion());
     			switch(field.getFieldType()){
@@ -141,12 +144,19 @@ public class FormToPdfController {
     			}
 			}
 		}
-		String fileOutputPath = uploadLocation + "/uId_" + uId + "/PDFoutput/" + pdf.getName();
-		File output = new File(fileOutputPath);
-		output.getParentFile().mkdirs();
-		pdfTemplate.save(output);
-		pdfTemplate.close();
-		return "formToPdf/listPrintForm";
+			String fileNameNoExt = FilenameUtils.getBaseName(pdf.getName());
+			Format formatter = new SimpleDateFormat("YYYY-MM-dd_hh-mm-ss");
+			String fileName = fileNameNoExt + "_" + formatter.format(new Date()) + ".pdf";
+
+			String fileOutputPath = uploadLocation + "uId_" + uId + "/PDFoutput/" + fileName;
+			File output = new File(fileOutputPath);
+			output.getParentFile().mkdirs();
+			pdfTemplate.save(output);
+			pdfTemplate.close();
+			user.getFilledForms().add(fileName);
+			userDao.saveUser(user);
+		}
+		return "redirect:/formToPdf/listPrintForm.html?fId=" + fId;
 	}
 
 

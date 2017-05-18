@@ -23,8 +23,8 @@
 					<td style="vertical-align: middle; text-align:center;">${form.totalPages}</td>
 					<td>
 						<a class="btn" href="mappingPdf.html" data-toggle="tooltip" title="Mapping PDF"><i class="glyphicon glyphicon-link"></i></a>						
-						<a class="btn" href="mappingField.html?id=${form.id}&pageNum=1" data-toggle="tooltip" title="Mapping Field"><i class="glyphicon glyphicon-transfer"></i></a>						
-						<a class="btn" href="listPrintForm.html?id=${form.id}" data-toggle="tooltip" title="Print Form"><i class="glyphicon glyphicon-text-background"></i></a>
+						<a class="btn" href="mappingField.html?fId=${form.id}&pageNum=1" data-toggle="tooltip" title="Mapping Field"><i class="glyphicon glyphicon-transfer"></i></a>						
+						<a class="btn" href="listPrintForm.html?fId=${form.id}" data-toggle="tooltip" title="Print Form"><i class="glyphicon glyphicon-text-background"></i></a>
 					</td>
 				</tr>
 			</c:forEach>

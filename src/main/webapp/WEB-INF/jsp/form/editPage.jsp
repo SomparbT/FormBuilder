@@ -54,7 +54,7 @@ $(function() {
 
 <div class="row">
 	<div class="col-md-offset-1 col-md-7">
-		<H3>FORM LIVE PREVIEW</H3>
+		<H3>FORM LIVE PREVIEW : ${form.name}</H3>
 		<div class="panel panel-primary">
 			<div class="panel-heading">
 				<h4 class="panel-title">PAGE ${param.pageNum}</h4>

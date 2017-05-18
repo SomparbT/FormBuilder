@@ -10,7 +10,7 @@
 	<formbuilder:pagination href_path="fillForm.html" href_staticParameter="uId=${param.uId}&fId=${param.fId}" href_dynamicParameter="pageNum" currentPage="${param.pageNum}" totalPages="${form.totalPages}"></formbuilder:pagination>
 	
 
-	<H2>FORM : ${form.name}</H2>
+	<H2>FORM : ${form.name} of ${user.username }</H2>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h4 class="panel-title">PAGE ${param.pageNum}</h4>
